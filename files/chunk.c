@@ -8,6 +8,7 @@ void initChunk(Chunk *chunk)
     chunk->count = 0;
     chunk->capacity = 0;
     chunk->code = NULL;
+    initValueArray(&chunk->constants);
 }
 
 void writeChunk(Chunk *chunk, uint8_t byte)
