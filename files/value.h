@@ -5,4 +5,11 @@
 
 typedef double Value;
 
+typedef struct
+{
+    int capacity;
+    int count;
+    Value *values;
+} ValueArray;
+
 #endif
