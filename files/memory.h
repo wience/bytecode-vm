@@ -10,4 +10,6 @@
     (type *)reallocate(pointer, sizeof(type) * (oldCount), \
                        sizeof(type) * (newCount))
 
+void *reallocate(void *pointer, size_t oldSize, size_t newSize);
+
 #endif
