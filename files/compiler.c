@@ -86,6 +86,11 @@ static void emitByte(uint8_t byte)
     writeChunk(currentChunk(), byte, parser.previous.line);
 }
 
+static void emitReturn()
+{
+    emitByte(OP_RETURN);
+}
+
 static void endCompiler()
 {
     emitReturn();
