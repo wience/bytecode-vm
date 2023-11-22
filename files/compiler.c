@@ -29,6 +29,13 @@ typedef enum
     PREC_PRIMARY
 } Precedence;
 
+typedef struct
+{
+    ParseFn prefix;
+    ParseFn infix;
+    Precedence precedence;
+} ParseRule;
+
 Parser parser;
 
 Chunk *compilingChunk;
