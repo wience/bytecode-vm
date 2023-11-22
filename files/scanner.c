@@ -111,6 +111,24 @@ static void skipWhitespace()
     }
 }
 
+static Token number()
+{
+    while (isDigit(peek()))
+        advance();
+
+    // Fraction??
+    if (peek() == '.' && isDigit(peekNext()))
+    {
+        // Consume "."
+        advance();
+
+        while (isDigit(peek()))
+            advance();
+    }
+
+    return makeToken(TOKEN_NUMBER);
+}
+
 static Token string()
 {
     while (peek() != '"' && !isAtEnd())
