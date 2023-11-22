@@ -151,7 +151,7 @@ static void unary()
     TokenType operatorType = parser.previous.type;
 
     // operand compile una
-    expression();
+    parsePrecedence(PREC_UNARY);
 
     // remove op instruction
     switch (operatorType)
