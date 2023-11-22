@@ -170,6 +170,7 @@ static void parsePrecedence(Precedence precedence)
 
 static void expression()
 {
+    parsePrecedence(PREC_ASSIGNMENT);
 }
 
 bool compile(const char *source, Chunk *chunk)
