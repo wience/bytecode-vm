@@ -132,6 +132,8 @@ Token scanToken()
         return makeToken(TOKEN_EOF);
 
     char c = advance();
+    if (isDigit(c))
+        return number();
 
     switch (c)
     {
