@@ -9,6 +9,7 @@ typedef struct
     Token current;
     Token previous;
     bool hadError;
+    bool panicMode;
 } Parser;
 
 Parser parser;
