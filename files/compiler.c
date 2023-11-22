@@ -12,6 +12,11 @@ typedef struct
 
 Parser parser;
 
+static void errorAtCurrent(const char *message)
+{
+    errorAt(&parser.current, message);
+}
+
 static void advance()
 {
     parser.previous = parser.current;
