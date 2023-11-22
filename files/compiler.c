@@ -97,6 +97,11 @@ static void emitReturn()
     emitByte(OP_RETURN);
 }
 
+static void emitConstant(Value value)
+{
+    emitBytes(OP_CONSTANT, makeConstant(value));
+}
+
 static void endCompiler()
 {
     emitReturn();
