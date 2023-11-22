@@ -8,6 +8,7 @@ typedef struct
 {
     Token current;
     Token previous;
+    bool hadError;
 } Parser;
 
 Parser parser;
@@ -56,10 +57,11 @@ static void advance()
     }
 }
 
-void compile(const char *source, Chunk *chunk)
+bool compile(const char *source, Chunk *chunk)
 {
     initScanner(source);
     advance();
     expression();
     consume(TOKEN_EOF, "Expect end of expression.");
+    return !parser.hadError;
 }
