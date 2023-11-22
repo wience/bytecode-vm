@@ -61,8 +61,27 @@ static Token errorToken(const char *message)
     return token;
 }
 
+static void skipWhitespace()
+{
+    for (;;)
+    {
+        char c = peek();
+        switch (c)
+        {
+        case ' ':
+        case '\r':
+        case '\t':
+            advance();
+            break;
+        default:
+            return;
+        }
+    }
+}
+
 Token scanToken()
 {
+    skipWhitespace();
     scanner.start = scanner.current;
 
     if (isAtEnd())
