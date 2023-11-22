@@ -101,6 +101,8 @@ static InterpretResult run()
 
 InterpretResult interpret(const char *source)
 {
+    /* testing the scanner rani
     compile(source);
     return INTERPRET_OK;
+    */
 }
