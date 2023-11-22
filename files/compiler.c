@@ -62,6 +62,17 @@ static void advance()
     }
 }
 
+static void consume(Tokentype type, const char *message)
+{
+    if (parser.current.type == type)
+    {
+        advance();
+        return;
+    }
+
+    errorAtCurrent(message);
+}
+
 bool compile(const char *source, Chunk *chunk)
 {
     initScanner(source);
