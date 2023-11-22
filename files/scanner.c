@@ -20,6 +20,11 @@ void initScanner(const char *source)
     scanner.line = 1;
 }
 
+static bool isDigit(char c)
+{
+    return c >= '0' && c <= '9';
+}
+
 static bool isAtEnd()
 {
     return *scanner.current == '\0';
