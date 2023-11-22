@@ -54,7 +54,7 @@ static void errorAt(Token *token, const char *message)
     if (parser.panicMode)
         return;
     parser.panicMode = true;
-    fprintf(stderr, "[line *d] Error", token->line);
+    fprintf(stderr, "[line %d] Error", token->line);
 
     if (token->type == TOKEN_EOF)
     {
@@ -66,7 +66,7 @@ static void errorAt(Token *token, const char *message)
     }
     else
     {
-        fprintf(stderr, " at '%.s'", token->length, token->start);
+        fprintf(stderr, " at '%.*s'", token->length, token->start);
     }
     fprintf(stderr, ": %s\n", message);
     parser.hadError = true;
