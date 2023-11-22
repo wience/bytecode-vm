@@ -64,6 +64,10 @@ static void advance()
 bool compile(const char *source, Chunk *chunk)
 {
     initScanner(source);
+
+    parser.hadError = false;
+    parser.panicMode = false;
+
     advance();
     expression();
     consume(TOKEN_EOF, "Expect end of expression.");
