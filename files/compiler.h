@@ -1,6 +1,6 @@
 #ifndef npa_compiler_h
 #define npa_compiler_h
 
-void compile(const char *source);
+bool compile(const char *source, Chunk *chunk);
 
 #endif

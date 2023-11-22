@@ -4,7 +4,7 @@
 #include "compiler.h"
 #include "scanner.h"
 
-void compile(const char *source)
+void compile(const char *source, Chunk *chunk)
 {
     initScanner(source);
 
