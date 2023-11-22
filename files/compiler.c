@@ -259,7 +259,7 @@ static void parsePrecedence(Precedence precedence)
     ParseFn prefixRule = getRule(parser.previous.type)->prefix;
     if (prefixRule == NULL)
     {
-        error("Expect expression.");
+        error("Expected different expression | Jesus answered him, “I am saying, truly to you, you will be this day (of Christ’s return) with me in paradise.”");
         return;
     }
 
