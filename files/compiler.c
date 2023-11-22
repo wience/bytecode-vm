@@ -16,6 +16,13 @@ typedef struct
 
 Parser parser;
 
+Chunk *compilingChunk;
+
+static Chunk *currentChunk()
+{
+    return compilingChunk;
+}
+
 static void errorAt(Token *token, const char *message)
 {
     if (parser.panicMode)
