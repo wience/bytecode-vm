@@ -62,7 +62,7 @@ static void advance()
     }
 }
 
-static void consume(Tokentype type, const char *message)
+static void consume(TokenType type, const char *message)
 {
     if (parser.current.type == type)
     {
