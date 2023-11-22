@@ -8,7 +8,7 @@ typedef struct
 {
     const char *start;
     const char *current;
-    int line
+    int line;
 } Scanner;
 
 Scanner scanner;
