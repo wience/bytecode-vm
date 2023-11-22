@@ -63,6 +63,8 @@ static InterpretResult run()
         }
         case OP_RETURN:
         {
+            printValue(pop());
+            printf("\n");
             return INTERPRET_OK;
         }
         }
