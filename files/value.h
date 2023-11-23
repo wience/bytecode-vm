@@ -8,6 +8,7 @@ typedef enum
     VAL_BOOL,
     VAL_NUL,
     VAL_NUMBER,
+    VAL_OBJ
 } ValueType;
 
 typedef struct
