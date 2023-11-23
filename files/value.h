@@ -6,7 +6,7 @@
 typedef enum
 {
     VAL_BOOL,
-    VAL_NUL,
+    VAL_NIL,
     VAL_NUMBER,
 } ValueType;
 
@@ -30,8 +30,6 @@ typedef struct
 #define BOOL_VAL(value) ((Value){VAL_BOOL, {.boolean = value}})
 #define NIL_VAL ((Value){VAL_NIL, {.number = 0}})
 #define NUMBER_VAL(value) ((Value){VAL_NUMBER, {.number = value}})
-
-typedef double Value;
 
 typedef struct
 {
