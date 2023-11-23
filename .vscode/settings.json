@@ -62,6 +62,16 @@
     "string": "cpp",
     "vector": "cpp",
     "debug.h": "c",
-    "chunk.h": "c"
+    "chunk.h": "c",
+    "__node_handle": "c",
+    "atomic": "c",
+    "bitset": "c",
+    "__memory": "c",
+    "limits": "c",
+    "locale": "c",
+    "optional": "c",
+    "ratio": "c",
+    "system_error": "c",
+    "tuple": "c"
   }
 }
