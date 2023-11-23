@@ -13,7 +13,7 @@ static Obj *allocateObject(size_t size, ObjType type)
 {
     Obj *object = (Obj *)reallocate(NULL, 0, size);
     object->type = type;
-    return object
+    return object;
 }
 
 static ObjString *allocateString(char *chars, int length)
