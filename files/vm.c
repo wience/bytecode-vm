@@ -58,12 +58,17 @@ static InterpretResult run()
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
 
-#define BINARY_OP(op)     \
-    do                    \
-    {                     \
-        double b = pop(); \
-        double a = pop(); \
-        push(a op b);     \
+#define BINARY_OP(ValueType, op)                        \
+    do                                                  \
+    {                                                   \
+        if (!IS_NUMBER(peek(0)) || !IS_NUMBER(peek(1))) \
+        {                                               \
+            runtimeError("Operands must be numbers");   \
+            return INTERPRET_RUNTIME_ERROR;             \
+        }                                               \
+        double b = AS_NUMBER(pop());                    \
+        double a = AS_NUMBER(pop());                    \
+        push(ValueType(a op b));                        \
     } while (false)
 
     for (;;)
