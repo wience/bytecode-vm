@@ -72,6 +72,7 @@
     "optional": "c",
     "ratio": "c",
     "system_error": "c",
-    "tuple": "c"
+    "tuple": "c",
+    "__locale": "c"
   }
 }
