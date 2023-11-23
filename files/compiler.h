@@ -2,6 +2,7 @@
 #define npa_compiler_h
 
 #include "vm.h"
+#include "object.h"
 
 // #include "chunk.h"
 
