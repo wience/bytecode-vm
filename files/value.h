@@ -18,6 +18,7 @@ typedef struct
     {
         bool boolean;
         double number;
+        Obj *obj;
     } as;
 } Value;
 
