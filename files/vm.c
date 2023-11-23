@@ -116,6 +116,9 @@ static InterpretResult run()
         case OP_DIVIDE:
             BINARY_OP(NUMBER_VAL, /);
             break;
+        case OP_NOT:
+            push(BOOL_VAL(isFalsey(pop())));
+            break;
         case OP_NEGATE:
             if (!IS_NUMBER(peek(0)))
             {
