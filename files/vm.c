@@ -83,7 +83,11 @@ static InterpretResult run()
             BINARY_OP(/);
             break;
         case OP_NEGATE:
-            push(-pop());
+            if (!IS_NUMBER(peek(0)))
+            {
+                runtimeError("Operand must be a number.");
+            }
+            push(NUMBER_VAL(-AS_NUMBER(pop())));
             break;
         case OP_RETURN:
         {
