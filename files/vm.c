@@ -17,7 +17,7 @@ static void runtimeError(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    vprintf(stderr, format, args);
+    vfprintf(stderr, format, args);
     va_end(args);
     fputs("\n", stderr);
 
