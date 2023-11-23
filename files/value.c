@@ -42,6 +42,9 @@ void printValue(Value value)
     case VAL_NUMBER:
         printf("%g", AS_NUMBER(value));
         break;
+    case VAL_OBJ:
+        printObject(value);
+        break;
     }
 }
 
