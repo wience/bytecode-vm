@@ -22,6 +22,8 @@ typedef enum
     INTERPRET_RUNTIME_ERROR
 } InterpretResult;
 
+extern VM vm;
+
 void initVM();
 void freeVM();
 InterpretResult interpret(const char *source);
