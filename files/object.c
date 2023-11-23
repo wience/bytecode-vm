@@ -6,6 +6,9 @@
 #include "value.h"
 #include "vm.h"
 
+#define ALLOCATE_OBJ(type, objectType) \
+    (type *)allocateObject(sizeof(type), objectType)
+
 static ObjString *allocateString(char *chars, int length)
 {
     ObjString *string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
