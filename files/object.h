@@ -15,4 +15,11 @@ struct Obj
     ObjType type;
 };
 
+struct ObjString
+{
+    Obj obj;
+    int length;
+    char *chars;
+};
+
 #endif
