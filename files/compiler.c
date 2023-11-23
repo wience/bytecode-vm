@@ -220,6 +220,9 @@ static void unary()
     // remove op instruction
     switch (operatorType)
     {
+    case TOKEN_BANG:
+        emitByte(OP_NOT);
+        break;
     case TOKEN_MINUS:
         emitByte(OP_NEGATE);
         break;
