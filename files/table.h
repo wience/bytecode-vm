@@ -6,6 +6,12 @@
 
 typedef struct
 {
+    ObjString *key;
+    Value value;
+} Entry;
+
+typedef struct
+{
     int count;
     int capacity;
     Entry *entries;
