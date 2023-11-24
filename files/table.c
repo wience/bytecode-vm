@@ -27,8 +27,23 @@ static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
     for (;;)
     {
         Entry *entry = &entries[index];
-        if (entry->key == key || entry->key == NULL)
+
+        if (entry->key == NULL)
         {
+            if (IS_NIL(entry->value))
+            {
+                // Empty Entry
+                return tombstone != NULL ? tombstone : entry;
+            }
+            else
+            {
+                if (tombstone == NULL)
+                    tombstone = entry;
+            }
+        }
+        else if (entry->key == key)
+        {
+            // Found key
             return entry;
         }
 
