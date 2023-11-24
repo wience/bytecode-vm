@@ -1,6 +1,26 @@
 # bytecode-vm
 My own Bytecode Virtual Machine
 
+# DONE:
+
+- SCANNER
+- PARSER 
+- VM TEMPLATE
+- DEBUGGER
+- MEMORY CHUNK TEMPLATES
+- DATATYPE STRINGS
+- HASHTABLES
+
+# TODO:
+
+- GLOBAL/LOCAL VAR
+- TRANSITION OF VAR
+- FUNCTIONS/CALLS/ETC
+- CLOSURES (pina swift)
+- GARBAGE COLLECTOR
+- OOP (CLASSES INSTANCE INHERITANCE METHODS INITIALIZERS)
+- OPTIMIZATION
+
 ## Concepts Used
 
 ## Bytecode Chunking
@@ -123,4 +143,6 @@ Used the Fowler–Noll–Vo hash function as the hash function (why? kay usa ra 
 Made implementation details of creating a hash table in the context of the language, including managing the array of buckets and handling dynamic resizing to maintain a balanced load factor​​.
 
 #### Inserting and Setting Entries: 
-Made functions for the process of adding entries to the hash table, handling new keys, and overwriting existing ones, as well as ensuring the hash table has enough capacity for new entries​​​​.
+Made functions for the process of adding entries to the hash table, handling new keys, and overwriting existing ones, as well as ensuring the hash table has enough capacity for new entries​​​​
+
+
