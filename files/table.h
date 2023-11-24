@@ -17,4 +17,6 @@ typedef struct
     Entry *entries;
 } Table;
 
+void initTable(Table *table);
+
 #endif
