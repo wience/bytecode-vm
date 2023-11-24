@@ -3,7 +3,7 @@ My own Bytecode Virtual Machine
 
 ## Concepts Used
 
-### Bytecode Chunking
+## Bytecode Chunking
 #### Dynamic Array of Instructions: 
 The bytecode is stored in a dynamic array, which allows constant-time indexed element lookup and appending to the end. This array grows by doubling its capacity to maintain constant amortized time for appends (Hi sir ryan hehe)​​.
 #### Growth Strategy: 
@@ -11,7 +11,7 @@ The dynamic array starts empty and grows using a function called GROW_CAPACITY, 
 #### Memory Management: 
 Made low-level memory management functions, including allocation, freeing, and resizing memory blocks using a function called reallocate(). This function is a central piece of managing memory for the bytecode's dynamic array​​.
 
-### My Virtual Machine
+## My Virtual Machine
 #### An Instruction Execution Machine: 
 In this, the basic structure of a virtual machine (VM) is made, along with its setup and cleanup instructions. A global VM instance is used to keep things simple. The VM type holds the piece of bytecode it's running.
 
@@ -30,7 +30,7 @@ Implemented as a raw C array, the VM's stack handles temporary values and is ess
 #### REPL for Stack Tracing: 
 A tool for debugging that lets programmers see what's on the stack before each order is carried out. This is especially helpful when working with complicated instructions, and it makes sure that the stack's action is clear. (And in my case, used for testing order precedence from my horribly written parsing method).
 
-### Scanner
+## Scanner
 
 #### Interpreter Framework: 
 Made the main class and methods for running files and prompts, laying the groundwork for the scanner to operate within​​.
@@ -56,12 +56,13 @@ Handling of single and multi-character operators, including lookahead to determi
 #### Longer Lexemes: 
 Strategies for lexemes that span multiple characters, such as comments or strings, which may require specialized scanning logic​​. (Simply another switch case)
 
-### Compiler
+## Compiler
 
 #### Single-Pass Compilation: 
 The compilation process that merges parsing and code generation into one pass.
 
 #### THE PRATT PARSER: 
+wikipedia nalang ta ani (basta chose this kay its more power than LR Descent Parsing and RELATIVELY simple to implement)
 The Pratt parser, introduced by Vaughan Pratt, is an elegant parsing technique that efficiently handles various expression grammars, including infix, prefix, and postfix operators, with different levels of precedence and associativity. It's particularly known for its simplicity and power, making it a favorite among language implementers for handwritten parsers.
 
 Pratt parsers work by associating parsing functions with token types. Each token type can have up to two parsing functions: one for when the token appears as a prefix (like - in -a) and another for when it appears as an infix (like + in a + b). These functions are then used in a parsing table to direct the parsing process as tokens are read from the input.
@@ -79,7 +80,7 @@ How the compiler handles expressions that start with a specific token, like unar
 #### Unary Negation: 
 It specifically addresses how the compiler deals with the unary minus operator, including the order of bytecode emission relative to operand parsing​​.
 
-### Value Types
+## Value Types
 
 #### Tagged Unions: 
 This concept involves using a combination of enums and unions in C to represent different types of values that a variable can hold in a dynamically typed language. The enum indicates the type of the value, and the union holds the actual data​​.
@@ -93,7 +94,7 @@ This part addresses the necessary changes in the code to handle the new represen
 #### Two New Types: 
 Introduction of Boolean and nil literals in the interpreter, and the implementation of specialized instructions for these literals to optimize performance and memory usage​​.
 
-### YAWA STRINGS (PINAKACONFUSING NA PART ANI TANAN)
+## STRINGS (PINAKACONFUSING NA PART ANI TANAN)
 
 #### String Representation: 
 The interpreter is designed to handle string values by tokenizing string literals and creating string objects to represent them in the language. This is done by trimming the leading and trailing quotation marks from the lexeme and then creating an ObjString object​​ (HEAP MOMENTS).
@@ -101,8 +102,25 @@ The interpreter is designed to handle string values by tokenizing string literal
 #### String Operations: 
 Made support for string operations (concatenations). For example, it includes a specialized instruction for each of the literals true, false, and nil, and it defines operations for printing string objects and comparing string equality based on the characters they contain​​.
 
-String Concatenation: In NVM, strings can be concatenated using the + operator. This involves creating a new string that merges the characters of the two operand strings. This is a runtime operation, as the types of the operands are not known until runtime due to NVM's dynamic typing​​.
+#### String Concatenation: 
+In NVM, strings can be concatenated using the + operator. This involves creating a new string that merges the characters of the two operand strings. This is a runtime operation, as the types of the operands are not known until runtime due to NVM's dynamic typing​​.
 
-Memory Management: Strings are dynamically allocated, which introduces the potential for memory leaks. Started to make garbage collection techniques (but is not complete) to manage memory and prevent leaks. Until PROPER garbage collection is implemented, I made a simpler approach by maintaining a linked list of all objects to ensure they can be found and freed when no longer in use​​. (in this case if string loc is > program counter or ip)
+#### Memory Management: 
+Strings are dynamically allocated, which introduces the potential for memory leaks. Started to make garbage collection techniques (but is not complete) to manage memory and prevent leaks. Until PROPER garbage collection is implemented, I made a simpler approach by maintaining a linked list of all objects to ensure they can be found and freed when no longer in use​​. (in this case if string loc is > program counter or ip)
 
+## Hash Tables for Variable Tracking (OKAY NEVERMIND NAGKALISUD NA)
 
+#### An Array of Buckets: 
+Simplified the basic structure of a hash table and set it as an array where each element, called a bucket, can potentially hold a key-value pair​​.
+
+#### Collision Resolution:  
+Found ways for hash tables deal with collisions—situations where different keys hash to the same bucket. Techniques include separate chaining and open addressing​​. I DID OPEN ADDRESSING (aka closed hasing)
+
+#### Hash Functions: 
+Used the Fowler–Noll–Vo hash function as the hash function (why? kay usa ra ka formula therefore sayun i implement)
+
+#### Building a Hash Table: 
+Made implementation details of creating a hash table in the context of the language, including managing the array of buckets and handling dynamic resizing to maintain a balanced load factor​​.
+
+#### Inserting and Setting Entries: 
+Made functions for the process of adding entries to the hash table, handling new keys, and overwriting existing ones, as well as ensuring the hash table has enough capacity for new entries​​​​.
