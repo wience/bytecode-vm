@@ -101,8 +101,10 @@ The interpreter is designed to handle string values by tokenizing string literal
 #### String Operations: 
 Made support for string operations (concatenations). For example, it includes a specialized instruction for each of the literals true, false, and nil, and it defines operations for printing string objects and comparing string equality based on the characters they contain​​.
 
-String Concatenation: In NVM, strings can be concatenated using the + operator. This involves creating a new string that merges the characters of the two operand strings. This is a runtime operation, as the types of the operands are not known until runtime due to NVM's dynamic typing​​.
+#### String Concatenation: 
+In NVM, strings can be concatenated using the + operator. This involves creating a new string that merges the characters of the two operand strings. This is a runtime operation, as the types of the operands are not known until runtime due to NVM's dynamic typing​​.
 
-Memory Management: Strings are dynamically allocated, which introduces the potential for memory leaks. Started to make garbage collection techniques (but is not complete) to manage memory and prevent leaks. Until PROPER garbage collection is implemented, I made a simpler approach by maintaining a linked list of all objects to ensure they can be found and freed when no longer in use​​. (in this case if string loc is > program counter or ip)
+#### Memory Management: 
+Strings are dynamically allocated, which introduces the potential for memory leaks. Started to make garbage collection techniques (but is not complete) to manage memory and prevent leaks. Until PROPER garbage collection is implemented, I made a simpler approach by maintaining a linked list of all objects to ensure they can be found and freed when no longer in use​​. (in this case if string loc is > program counter or ip)
 
 
