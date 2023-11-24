@@ -35,6 +35,7 @@ ObjString *takeString(char *chars, int length)
 
 ObjString *copyString(const char *chars, int length)
 {
+    uint32_t hash = hashString(chars, length);
     char *heapChars = ALLOCATE(char, length + 1);
     memcpy(heapChars, chars, length);
     heapChars[length] = '\0';
