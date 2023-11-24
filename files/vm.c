@@ -146,7 +146,7 @@ static InterpretResult run()
         {
             if (IS_STRING(peek(0)) && IS_STRING(peek(1)))
             {
-                concantenate();
+                concatenate();
             }
             else if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1)))
             {
