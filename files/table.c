@@ -21,6 +21,21 @@ void freeTable(Table *table)
     initTable(table);
 }
 
+static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
+{
+    uint32_t index = key->hash % capacity;
+    for (;;)
+    {
+        Entry *entry = &entries[index];
+        if (entry->key == key || entry->key == NULL)
+        {
+            return entry;
+        }
+
+        index = (index + 1) % capacity;
+    }
+}
+
 bool tableSet(Table *table, ObjString *key, Value value)
 {
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
