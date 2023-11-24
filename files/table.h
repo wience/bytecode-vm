@@ -18,5 +18,6 @@ typedef struct
 } Table;
 
 void initTable(Table *table);
+void freeTable(Table *table);
 
 #endif
