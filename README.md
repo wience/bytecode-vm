@@ -30,4 +30,28 @@ Implemented as a raw C array, the VM's stack handles temporary values and is ess
 #### REPL for Stack Tracing: 
 A tool for debugging that lets programmers see what's on the stack before each order is carried out. This is especially helpful when working with complicated instructions, and it makes sure that the stack's action is clear. (And in my case, used for testing order precedence from my horribly written parsing method).
 
+### Scanner
 
+#### Interpreter Framework: 
+Made the main class and methods for running files and prompts, laying the groundwork for the scanner to operate within​​.
+
+#### Error Handling/Debugger: 
+Defined basic error reporting mechanisms, crucial for indicating to users where and what the problems are in their code​​.
+
+#### Lexemes and Tokens: 
+This concept involves identifying meaningful character sequences (lexemes) and converting them into tokens with associated metadata like type and value​​. Unwrapping and Wrapping.
+
+#### Regular Languages and Expressions: 
+The scanner's logic is based on the principles of regular languages, utilizing patterns similar to regular expressions to identify lexemes​​.
+
+#### The Scanner Class: 
+It includes the main loop that iterates over the source code, classifying each character or sequence of characters into tokens, and handling end-of-file (EOF) conditions​​.
+
+#### Recognizing Lexemes: 
+Discusses the process of scanning individual tokens, including single-character lexemes and handling of lexical errors​​.
+
+#### Operators: 
+Handling of single and multi-character operators, including lookahead to determine if a character is part of a larger lexeme like '!=' versus '!'​​. [Also discovered how switch case statements are faster than if else statements]
+
+#### Longer Lexemes: 
+Strategies for lexemes that span multiple characters, such as comments or strings, which may require specialized scanning logic​​. (Simply another switch case)
