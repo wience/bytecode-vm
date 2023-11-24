@@ -73,6 +73,7 @@
     "ratio": "c",
     "system_error": "c",
     "tuple": "c",
-    "__locale": "c"
+    "__locale": "c",
+    "value.h": "c"
   }
 }
