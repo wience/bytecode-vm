@@ -55,3 +55,54 @@ Handling of single and multi-character operators, including lookahead to determi
 
 #### Longer Lexemes: 
 Strategies for lexemes that span multiple characters, such as comments or strings, which may require specialized scanning logic​​. (Simply another switch case)
+
+### Compiler
+
+#### Single-Pass Compilation: 
+The compilation process that merges parsing and code generation into one pass.
+
+#### THE PRATT PARSER: 
+The Pratt parser, introduced by Vaughan Pratt, is an elegant parsing technique that efficiently handles various expression grammars, including infix, prefix, and postfix operators, with different levels of precedence and associativity. It's particularly known for its simplicity and power, making it a favorite among language implementers for handwritten parsers.
+
+Pratt parsers work by associating parsing functions with token types. Each token type can have up to two parsing functions: one for when the token appears as a prefix (like - in -a) and another for when it appears as an infix (like + in a + b). These functions are then used in a parsing table to direct the parsing process as tokens are read from the input.
+
+The parser maintains a notion of "current token" and executes the corresponding parsing function based on the token's role (prefix or infix). This function can then decide how to parse the following tokens, potentially invoking other parsing functions recursively, allowing for a natural and efficient handling of operator precedence and associativity.
+
+The Pratt parser shines with its ability to parse a wide variety of expression patterns using a relatively small and consistent set of parsing rules, and it's well-suited for programming languages with complex expression syntax. It's an algorithm often used in production compilers for its balance of performance and maintainability.
+
+#### Emitting Bytecode: 
+After parsing, the compiler translates the source code into bytecode instructions​​.
+
+#### Parsing Prefix Expressions: 
+How the compiler handles expressions that start with a specific token, like unary operators or parentheses​​.
+
+#### Unary Negation: 
+It specifically addresses how the compiler deals with the unary minus operator, including the order of bytecode emission relative to operand parsing​​.
+
+### Value Types
+
+#### Tagged Unions: 
+This concept involves using a combination of enums and unions in C to represent different types of values that a variable can hold in a dynamically typed language. The enum indicates the type of the value, and the union holds the actual data​​.
+
+#### NVM Values and C Values: 
+Conversion between native C values and the interpreter's value types is handled through macros. These macros are responsible for wrapping C values into the interpreter's value types and for unwrapping the interpreter's values back into C values​​.
+
+#### Dynamically Typed Numbers: 
+This part addresses the necessary changes in the code to handle the new representation of values. It also describes the implementation of runtime checks and errors for operations that are type-dependent, like unary negation​​.
+
+#### Two New Types: 
+Introduction of Boolean and nil literals in the interpreter, and the implementation of specialized instructions for these literals to optimize performance and memory usage​​.
+
+### YAWA STRINGS (PINAKACONFUSING NA PART ANI TANAN)
+
+#### String Representation: 
+The interpreter is designed to handle string values by tokenizing string literals and creating string objects to represent them in the language. This is done by trimming the leading and trailing quotation marks from the lexeme and then creating an ObjString object​​ (HEAP MOMENTS).
+
+#### String Operations: 
+Made support for string operations (concatenations). For example, it includes a specialized instruction for each of the literals true, false, and nil, and it defines operations for printing string objects and comparing string equality based on the characters they contain​​.
+
+String Concatenation: In NVM, strings can be concatenated using the + operator. This involves creating a new string that merges the characters of the two operand strings. This is a runtime operation, as the types of the operands are not known until runtime due to NVM's dynamic typing​​.
+
+Memory Management: Strings are dynamically allocated, which introduces the potential for memory leaks. Started to make garbage collection techniques (but is not complete) to manage memory and prevent leaks. Until PROPER garbage collection is implemented, I made a simpler approach by maintaining a linked list of all objects to ensure they can be found and freed when no longer in use​​. (in this case if string loc is > program counter or ip)
+
+
