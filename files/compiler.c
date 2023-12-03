@@ -252,7 +252,7 @@ static void namedVariable(Token name, bool canAssign)
 {
     uint8_t arg = identifierConstant(&name);
 
-    if (match(TOKEN_EQUAL))
+    if (canAssign && match(TOKEN_EQUAL))
     {
         expression();
         emitBytes(OP_SET_GLOBAL, arg);
