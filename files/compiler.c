@@ -360,6 +360,10 @@ static void statement()
     {
         printStatement();
     }
+    else
+    {
+        expressionStatement();
+    }
 }
 
 bool compile(const char *source, Chunk *chunk)
