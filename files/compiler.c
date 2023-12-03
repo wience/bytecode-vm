@@ -407,6 +407,10 @@ static uint8_t parseVariable(const char *errorMessage)
 
 static void defineVariable(uint8_t global)
 {
+    if (current->scopeDepth > 0)
+    {
+        return;
+    }
     emitBytes(OP_DEFINE_GLOBAL, global);
 }
 
