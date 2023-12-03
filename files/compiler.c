@@ -342,6 +342,23 @@ static void expression()
     parsePrecedence(PREC_ASSIGNMENT);
 }
 
+static void varDeclaration()
+{
+    uint8_t global = parseVariable("Expected variable name.");
+
+    if (match(TOKEN_EQUAL))
+    {
+        expression();
+    }
+    else
+    {
+        emitByte(OP_NIL);
+    }
+    consume(TOKEN_SEMICOLON, "Expected ';' after variable declaration");
+
+    defineVariable(global);
+}
+
 static void expressionStatement()
 {
     expression();
