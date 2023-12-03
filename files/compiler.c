@@ -33,6 +33,7 @@ typedef enum
 } Precedence;
 
 typedef void (*ParseFn)(bool canAssign);
+static uint8_t identifierConstant(Token *name);
 typedef struct
 {
     ParseFn prefix;
