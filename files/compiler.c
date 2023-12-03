@@ -248,6 +248,12 @@ static void string()
     emitConstant(OBJ_VAL(copyString(parser.previous.start + 1, parser.previous.length - 2)));
 }
 
+static void namedVariable(Token name)
+{
+    uint8_t arg = identifierConstant(&name);
+    emitBytes(OP_GET_GLOBAL, arg);
+}
+
 static void variable()
 {
     namedVariable(parser.previous);
