@@ -396,6 +396,13 @@ static uint8_t identifierConstant(Token *name)
     return makeConstant(OBJ_VAL(copyString(name->start, name->length)));
 }
 
+static void addLocal(Token name)
+{
+    Local *local = &current->locals[current->localCount++];
+    local->name = name;
+    local->depth = current->scopeDepth;
+}
+
 static void declareVariable()
 {
     if (current->scopeDepth == 0)
