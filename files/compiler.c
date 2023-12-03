@@ -371,7 +371,16 @@ static void synchronize()
         case TOKEN_FUN:
         case TOKEN_VAR:
         case TOKEN_FOR:
+        case TOKEN_IF:
+        case TOKEN_WHILE:
+        case TOKEN_PRINT:
+        case TOKEN_RETURN:
+            return;
+
+        default:; // Do Nothing.
         }
+
+        advance();
     }
 }
 
