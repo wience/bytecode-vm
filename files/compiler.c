@@ -263,9 +263,9 @@ static void namedVariable(Token name)
     }
 }
 
-static void variable()
+static void variable(bool canAssign)
 {
-    namedVariable(parser.previous);
+    namedVariable(parser.previous, canAssign);
 }
 
 static void unary()
