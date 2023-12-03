@@ -332,6 +332,14 @@ static void declaration()
     statement();
 }
 
+static void statement()
+{
+    if (match(TOKEN_PRINT))
+    {
+        printStatement();
+    }
+}
+
 bool compile(const char *source, Chunk *chunk)
 {
     initScanner(source);
