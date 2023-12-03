@@ -213,7 +213,7 @@ static void binary(bool canAssign)
     }
 }
 
-static void literal()
+static void literal(bool canAssign)
 {
     switch (parser.previous.type)
     {
