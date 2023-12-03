@@ -346,6 +346,7 @@ static void expressionStatement()
 {
     expression();
     consume(TOKEN_SEMICOLON, "Expected ';' after expression.");
+    emitByte(OP_POP);
 }
 
 static void printStatement()
