@@ -332,6 +332,12 @@ static void parsePrecedence(Precedence precedence)
     }
 }
 
+static uint8_t parseVariable(const char *errorMessage)
+{
+    consume(TOKEN_IDENTIFIER, errorMessage);
+    return identifierConstant(&parser.previous);
+}
+
 static ParseRule *getRule(TokenType type)
 {
     return &rules[type];
