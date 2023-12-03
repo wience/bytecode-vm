@@ -369,7 +369,6 @@ bool compile(const char *source, Chunk *chunk)
 
     parser.hadError = false;
     parser.panicMode = false;
-    x
 
     advance();
 
