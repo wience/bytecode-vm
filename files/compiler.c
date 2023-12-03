@@ -386,7 +386,14 @@ static void synchronize()
 
 static void declaration()
 {
-    statement();
+    if (match(TOKEN_VAR))
+    {
+        varDeclaration();
+    }
+    else
+    {
+        statement();
+    }
 
     if (parser.panicMode)
         synchronize();
