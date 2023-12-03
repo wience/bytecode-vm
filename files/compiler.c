@@ -349,7 +349,7 @@ static void parsePrecedence(Precedence precedence)
     {
         advance();
         ParseFn infixRule = getRule(parser.previous.type)->infix;
-        infixRule();
+        infixRule(canAssign);
     }
 
     if (canAssign && match(TOKEN_EQUAL))
