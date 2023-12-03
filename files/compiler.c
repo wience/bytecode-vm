@@ -152,6 +152,8 @@ static void endCompiler()
 }
 
 static void expression();
+static void statement();
+static void declaration();
 static ParseRule *getRule(TokenType type);
 static void parsePrecedence(Precedence precedence);
 
