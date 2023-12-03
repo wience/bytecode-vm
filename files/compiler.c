@@ -41,6 +41,12 @@ typedef struct
     Precedence precedence;
 } ParseRule;
 
+typdef struct
+{
+    Token name;
+    int depth;
+} Local;
+
 typedef struct
 {
     Local locals[UINT8_COUNT];
