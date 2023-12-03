@@ -487,6 +487,7 @@ static void defineVariable(uint8_t global)
 {
     if (current->scopeDepth > 0)
     {
+        markInitialized();
         return;
     }
     emitBytes(OP_DEFINE_GLOBAL, global);
