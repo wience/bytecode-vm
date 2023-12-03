@@ -290,7 +290,20 @@ static void string(bool canAssign)
 
 static void namedVariable(Token name, bool canAssign)
 {
-    uint8_t arg = identifierConstant(&name);
+    uint8_t getOp, setOp;
+    int arg = resolveLocal(current, &name);
+
+    if (arg != -1)
+    {
+        getOp = OP_GET_LOCAL;
+        setOp = OP_SET_LOCAL;
+    }
+    else
+    {
+        arg = identifierConstant(&name);
+        getOp = OP_GET_GLOBAL;
+        setOp = OP_SET_GLOBAL;
+    }
 
     if (canAssign && match(TOKEN_EQUAL))
     {
