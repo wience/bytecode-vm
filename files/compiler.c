@@ -396,6 +396,14 @@ static uint8_t identifierConstant(Token *name)
     return makeConstant(OBJ_VAL(copyString(name->start, name->length)));
 }
 
+static bool identifiersEqual(Token *a, Token *b)
+{
+    if (a->length != b->length)
+        return false;
+
+    return memcmp(a->start, b->start, a->length) == 0;
+}
+
 static void addLocal(Token name)
 {
     if (current->localCount == UINT8_COUNT)
