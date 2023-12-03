@@ -41,7 +41,7 @@ typedef struct
     Precedence precedence;
 } ParseRule;
 
-typdef struct
+typedef struct
 {
     Token name;
     int depth;
@@ -55,6 +55,8 @@ typedef struct
 } Compiler;
 
 Parser parser;
+
+Compiler *current = NULL;
 
 Chunk *compilingChunk;
 
