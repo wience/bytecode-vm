@@ -41,6 +41,13 @@ typedef struct
     Precedence precedence;
 } ParseRule;
 
+typedef struct
+{
+    Local locals[UINT8_COUNT];
+    int localCount;
+    int scopeDepth;
+} Compiler;
+
 Parser parser;
 
 Chunk *compilingChunk;
