@@ -424,6 +424,20 @@ static bool identifiersEqual(Token *a, Token *b)
     return memcmp(a->start, b->start, a->length) == 0;
 }
 
+static int resolveLocal(Compiler *compiler, Token *name)
+{
+    for (int i = compiler->localCount - 1; i >= 0; i--)
+    {
+        Local *local = &compiler->locals[i];
+        if (identifiersEqual(name, &local->name))
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 static void addLocal(Token name)
 {
     if (current->localCount == UINT8_COUNT)
