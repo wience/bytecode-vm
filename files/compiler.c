@@ -351,6 +351,11 @@ static void parsePrecedence(Precedence precedence)
         ParseFn infixRule = getRule(parser.previous.type)->infix;
         infixRule();
     }
+
+    if (canAssign && match(TOKEN_EQUAL))
+    {
+        error("Invalid assignment target");
+    }
 }
 
 static uint8_t identifierConstant(Token *name)
