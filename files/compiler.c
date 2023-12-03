@@ -107,6 +107,11 @@ static void consume(TokenType type, const char *message)
     errorAtCurrent(message);
 }
 
+static bool check(TokenType type)
+{
+    return parser.current.type == type;
+}
+
 static bool match(TokenType type)
 {
     if (!check(type))
