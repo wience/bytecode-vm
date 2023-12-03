@@ -398,6 +398,11 @@ static uint8_t identifierConstant(Token *name)
 
 static void addLocal(Token name)
 {
+    if (current->localCount == UINT8_COUNT)
+    {
+        error("Too many local variables in function.");
+        return;
+    }
     Local *local = &current->locals[current->localCount++];
     local->name = name;
     local->depth = current->scopeDepth;
