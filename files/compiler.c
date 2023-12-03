@@ -192,6 +192,11 @@ static void beginScope()
     current->scopeDepth++;
 }
 
+static void endScope()
+{
+    current->scopeDepth--;
+}
+
 static void expression();
 static void statement();
 static void declaration();
