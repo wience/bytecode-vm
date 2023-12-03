@@ -134,6 +134,13 @@ static InterpretResult run()
         case OP_POP:
             pop();
             break;
+        case OP_DEFINE_GLOBAL:
+        {
+            ObjString *name = READ_STRING();
+            tableSet(&vm.globals, name, peek(0));
+            pop();
+            break;
+        }
         case OP_EQUAL:
         {
             Value b = pop();
