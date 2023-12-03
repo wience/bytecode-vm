@@ -342,6 +342,13 @@ static void expression()
     parsePrecedence(PREC_ASSIGNMENT);
 }
 
+static void printStatement()
+{
+    expression();
+    consume(TOKEN_SEMICOLON, "Expect ';' after value.");
+    emitByte(OP_PRINT);
+}
+
 static void declaration()
 {
     statement();
