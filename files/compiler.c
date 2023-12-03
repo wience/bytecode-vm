@@ -343,6 +343,11 @@ static uint8_t parseVariable(const char *errorMessage)
     return identifierConstant(&parser.previous);
 }
 
+static void defineVariable(uint8_t global)
+{
+    emitBytes(OP_DEFINE_GLOBAL, global);
+}
+
 static ParseRule *getRule(TokenType type)
 {
     return &rules[type];
