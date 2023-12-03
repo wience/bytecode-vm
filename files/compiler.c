@@ -359,6 +359,9 @@ static void printStatement()
 static void declaration()
 {
     statement();
+
+    if (parser.panicMode)
+        synchronize();
 }
 
 static void statement()
