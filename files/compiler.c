@@ -196,6 +196,12 @@ static void beginScope()
 static void endScope()
 {
     current->scopeDepth--;
+
+    while (current->localCount > 0 && current->locals[current->localCount - 1].depth > current->scopeDepth)
+    {
+        emitByte(OP_POP);
+        current->localCount--;
+    }
 }
 
 static void expression();
