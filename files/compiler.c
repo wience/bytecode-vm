@@ -447,7 +447,7 @@ static void addLocal(Token name)
     }
     Local *local = &current->locals[current->localCount++];
     local->name = name;
-    local->depth = current->scopeDepth;
+    local->depth = -1;
 }
 
 static void declareVariable()
