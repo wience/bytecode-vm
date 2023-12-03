@@ -231,7 +231,7 @@ static void literal(bool canAssign)
     }
 }
 
-static void grouping()
+static void grouping(bool canAssign)
 {
     expression();
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after expression.");
