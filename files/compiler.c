@@ -546,6 +546,18 @@ static void expressionStatement()
     emitByte(OP_POP);
 }
 
+static void ifStatement()
+{
+    consume(TOKEN_LEFT_PAREN, "Expected '(' after 'if'.");
+    expression();
+    consume(TOKEN_RIGHT_PAREN, "Expected ')' after condition.");
+
+    int thenJump = emitJump(OP_JUMP_IF_FALSE);
+    statement();
+
+    patchJump(thenJump);
+}
+
 static void printStatement()
 {
     expression();
