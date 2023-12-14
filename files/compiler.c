@@ -671,6 +671,10 @@ static void statement()
     {
         ifStatement();
     }
+    else if (match(TOKEN_WHILE))
+    {
+        whileStatement();
+    }
     else if (match(TOKEN_LEFT_BRACE))
     {
         beginScope();
