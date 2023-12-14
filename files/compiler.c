@@ -852,6 +852,10 @@ static void statement()
     {
         ifStatement();
     }
+    else if (match(TOKEN_RETURN))
+    {
+        returnStatement();
+    }
     else if (match(TOKEN_WHILE))
     {
         whileStatement();
