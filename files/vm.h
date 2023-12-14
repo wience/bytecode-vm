@@ -1,6 +1,7 @@
 #ifndef npa_vm_h
 #define npa_vm_h
 
+#include "object.h"
 #include "chunk.h"
 #include "value.h"
 #include "table.h"
