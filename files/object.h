@@ -16,6 +16,7 @@
 typedef enum
 {
     OBJ_FUNCTION,
+    OBJ_NATIVE,
     OBJ_STRING,
 } ObjType;
 
