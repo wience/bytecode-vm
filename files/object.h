@@ -58,6 +58,12 @@ struct ObjString
     uint32_t hash;
 };
 
+typedef struct ObjUpvalue
+{
+    Obj obj;
+    Value *location;
+} ObjUpvalue;
+
 typedef struct
 {
     Obj obj;
