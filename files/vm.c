@@ -137,6 +137,12 @@ static bool callValue(Value callee, int argCount)
     return false;
 }
 
+static ObjUpvalue *captureUpvalue(Value *local)
+{
+    ObjUpvalue *createdUpvalue = newUpvalue(local);
+    return createdUpvalue;
+}
+
 static bool isFalsey(Value value)
 {
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
@@ -267,6 +273,12 @@ static InterpretResult run()
             Value b = pop();
             Value a = pop();
             push(BOOL_VAL(valuesEqual(a, b)));
+            break;
+        }
+        case OP_GET_UPVALUE:
+        {
+            uint8_t slot = READ_BYTE();
+            push(*frame->closure->upvalues[slot]->location);
             break;
         }
         case OP_GREATER:
