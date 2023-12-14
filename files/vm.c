@@ -72,6 +72,12 @@ static bool call(ObjFunction *function, int argCount)
         return false;
     }
 
+    if (vm.frameCount == FRAMES_MAX)
+    {
+        runtimeError("Stack overflow.");
+        return false;
+    }
+
     CallFrame *frame = &vm.frames[vm.frameCount++];
     frame->function = function;
     frame->ip = function->chunk.code;
