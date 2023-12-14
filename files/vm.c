@@ -283,20 +283,16 @@ static InterpretResult run()
 
 InterpretResult interpret(const char *source)
 {
-    Chunk chunk;
-    initChunk(&chunk);
-
-    if (!compile(source, &chunk))
-    {
-        freeChunk(&chunk);
+    ObjFunction *function = compile(source);
+    if (function == NULL)
         return INTERPRET_COMPILE_ERROR;
-    }
 
-    vm.chunk = &chunk;
-    vm.ip = vm.chunk->code;
+    push(OBJ_VAL(function));
+    CallFrame *frame = &vm.frames[vm.frameCount++];
+    frame->function = function;
+    frame->ip = function->chunk.code;
+    frame->slots = vm.stack;
 
-    /* testing the scanner rani
-    compile(source);
-    */
+    InterpretResult result = run();
     return INTERPRET_OK;
 }
