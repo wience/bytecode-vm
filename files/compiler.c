@@ -632,7 +632,6 @@ static void forStatement()
         emitByte(OP_POP); // condition
     }
 
-    consume(TOKEN_SEMICOLON, "Expect ';'.");
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses.");
 
     statement();
