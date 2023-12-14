@@ -240,6 +240,7 @@ static ObjFunction *endCompiler()
     }
 #endif
 
+    current = current->enclosing;
     return function;
 }
 
