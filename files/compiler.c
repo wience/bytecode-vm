@@ -178,6 +178,21 @@ static void emitConstant(Value value)
     emitBytes(OP_CONSTANT, makeConstant(value));
 }
 
+static void patchJump(int offset)
+{
+    // -2 adjust for bytecode for the jump offset iteself
+
+    int jump = currentChunk()->count - offset - 2;
+
+    if (jump > UINT16_MAX)
+    {
+        error("Too much code to jump over.");
+    }
+
+    currentChunk()->code[offset] = (jump >> 8) & 0xff;
+    currentChunk()->code[offset + 1] = jump & 0xff;
+}
+
 static void initCompiler(Compiler *compiler)
 {
     compiler->localCount = 0;
