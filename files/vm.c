@@ -92,11 +92,11 @@ static Value peek(int distance)
     return vm.stackTop[-1 - distance];
 }
 
-static bool call(ObjFunction *function, int argCount)
+static bool call(ObjClosure *closure, int argCount)
 {
-    if (argCount != function->arity)
+    if (argCount != closure->function->arity)
     {
-        runtimeError("Expected %d arguments but got %d.", function->arity, argCount);
+        runtimeError("Expected %d arguments but got %d.", closure->function->arity, argCount);
         return false;
     }
 
