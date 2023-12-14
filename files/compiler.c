@@ -240,6 +240,7 @@ static void initCompiler(Compiler *compiler, FunctionType type)
 
     Local *local = &current->locals[current->localCount++];
     local->depth = 0;
+    local->isCaptured = false;
     local->name.start = "";
     local->name.length = 0;
 }
