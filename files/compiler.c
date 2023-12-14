@@ -530,6 +530,20 @@ static int resolveLocal(Compiler *compiler, Token *name)
     return -1;
 }
 
+static int resolveUpvalue(Compiler *compiler, Token *name)
+{
+    if (compiler->enclosing == NULL)
+        return -1;
+
+    int local = resolveLocal(compiler->enclosing, name);
+    if (local != -1)
+    {
+        return addUpvalue(compiler, (uint8_t)local, true);
+    }
+
+    return -1;
+}
+
 static void addLocal(Token name)
 {
     if (current->localCount == UINT8_COUNT)
