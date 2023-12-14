@@ -169,6 +169,18 @@ static ObjUpvalue *captureUpvalue(Value *local)
     return createdUpvalue;
 }
 
+static void closeUpvalues(Value *last)
+{
+    while (vm.openUpvalues != NULL &&
+           vm.openUpvalues->location >= last)
+    {
+        ObjUpvalue *upvalue = vm.openUpvalues;
+        upvalue->closed = *upvalue->location;
+        upvalue->location = &upvalue->closed;
+        vm.openUpvalues = upvalue->next;
+    }
+}
+
 static bool isFalsey(Value value)
 {
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
