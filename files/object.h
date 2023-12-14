@@ -24,9 +24,8 @@ typedef enum
     OBJ_FUNCTION,
     OBJ_NATIVE,
     OBJ_STRING,
-    OBJ_UPVALUE;
-}
-ObjType;
+    OBJ_UPVALUE
+} ObjType;
 
 struct Obj
 {

@@ -406,7 +406,7 @@ static InterpretResult run()
         }
         case OP_CLOSURE:
         {
-            ObjFunction function = AS_FUNCTION(READ_CONSTANT());
+            ObjFunction *function = AS_FUNCTION(READ_CONSTANT());
             ObjClosure *closure = newClosure(function);
             push(OBJ_VAL(closure));
 
