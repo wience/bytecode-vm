@@ -51,6 +51,7 @@ typedef struct
     NativeFn function;
 } ObjNative;
 struct ObjString
+
 {
     Obj obj;
     int length;
@@ -62,6 +63,7 @@ typedef struct ObjUpvalue
 {
     Obj obj;
     Value *location;
+    struct ObjUpvalue *next;
 } ObjUpvalue;
 
 typedef struct
