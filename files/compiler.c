@@ -579,6 +579,9 @@ static void ifStatement()
     statement();
 
     patchJump(thenJump);
+
+    if (match(TOKEN_ELSE))
+        statement();
 }
 
 static void printStatement()
