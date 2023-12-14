@@ -85,10 +85,17 @@ static void concatenate()
 
 static InterpretResult run()
 {
-#define READ_BYTE() (*vm.ip++)
-#define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
+    CallFrame *frame = &vm.frames[vm.frameCount - 1];
+
+#define READ_BYTE() (*frame->ip++)
+
 #define READ_SHORT() \
-    (vm.ip += 2, (uint16_t)((vm.ip[-2] << 8) | vm.ip[-1]))
+    (frame->ip += 2, \
+     (uint16_t)((frame->ip[-2] << 8) | frame->ip[-1]))
+
+#define READ_CONSTANT() \
+    (frame->function->chunk.constants.values[READ_BYTE()])
+
 #define READ_STRING() AS_STRING(READ_CONSTANT())
 #define BINARY_OP(ValueType, op)                        \
     do                                                  \
