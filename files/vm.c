@@ -31,7 +31,7 @@ static void runtimeError(const char *format, ...)
         ObjFunction *function = frame->function;
         size_t instruction = frame->ip - function->chunk.code - 1;
         fprintf(stderr, "[line %d] in ", function->chunk.lines[instruction]);
-        if (funciton->name == NULL)
+        if (function->name == NULL)
         {
             fprintf(stderr, "script\n");
         }
