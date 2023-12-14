@@ -810,6 +810,6 @@ ObjFunction *compile(const char *source)
     /* expression();
     consume(TOKEN_EOF, "Expect end of expression."); */
 
-    endCompiler();
-    return !parser.hadError;
+    ObjFunction *function = endCompiler();
+    return parser.hadError ? NULL : function;
 }
