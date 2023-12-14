@@ -777,6 +777,11 @@ static void printStatement()
 
 static void returnStatement()
 {
+    if (current->type == TYPE_SCRIPT)
+    {
+        error("Can't return from top-level code.");
+    }
+
     if (match(TOKEN_SEMICOLON))
     {
         emitReturn();
