@@ -84,6 +84,7 @@ static void printFunction(ObjFunction *function)
         printf("<script>");
         return;
     }
+
     printf("<fn %s>", function->name->chars);
 }
 
