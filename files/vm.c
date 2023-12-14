@@ -325,10 +325,22 @@ static InterpretResult run()
         }
         case OP_RETURN:
         {
+            Value result = pop();
+            vm.frameCount--;
+
+            if (vm.frameCount == 0)
+            {
+                pop();
+                return INTERPRET_OK;
+            }
+
+            vm.stackTop = frame->slots;
+            push(result);
+            frame = &vm.frames[vm.frameCount - 1];
+            break;
             // printValue(pop());
             // printf("\n");
             // Exit interpreter.
-            return INTERPRET_OK;
         }
         }
     }
