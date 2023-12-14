@@ -52,6 +52,12 @@ struct ObjString
     uint32_t hash;
 };
 
+typedef struct
+{
+    Obj obj;
+    ObjFunction *function;
+} ObjClosure;
+
 ObjFunction *newFunction();
 ObjNative *newNative(NativeFn function);
 ObjString *takeString(char *chars, int length);
