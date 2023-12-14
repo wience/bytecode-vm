@@ -42,7 +42,7 @@ typedef Value (*NativeFn)(int argCount, Value *args);
 typedef struct
 {
     Obj obj;
-    NativeFn function
+    NativeFn function;
 } ObjNative;
 struct ObjString
 {

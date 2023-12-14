@@ -35,6 +35,8 @@ typedef enum
 
 typedef void (*ParseFn)(bool canAssign);
 static uint8_t identifierConstant(Token *name);
+static void call(bool canAssign);
+static uint8_t argumentList();
 typedef struct
 {
     ParseFn prefix;
@@ -781,7 +783,6 @@ static void returnStatement()
     {
         error("Can't return from top-level code.");
     }
-
     if (match(TOKEN_SEMICOLON))
     {
         emitReturn();
