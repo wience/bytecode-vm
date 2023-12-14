@@ -221,6 +221,11 @@ static void initCompiler(Compiler *compiler, FunctionType type)
     compiler->scopeDepth = 0;
     compiler->function = newFunction();
     current = compiler;
+
+    Local *local = &current->locals[current->localCount++];
+    local->depth = 0;
+    local->name.start = "";
+    local->name.length = 0;
 }
 
 static void endCompiler()
