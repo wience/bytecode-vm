@@ -269,6 +269,8 @@ static void statement();
 static void declaration();
 static ParseRule *getRule(TokenType type);
 static void parsePrecedence(Precedence precedence);
+static void and_(bool canAssign);
+static int resolveLocal(Compiler *compiler, Token *name);
 
 static void binary(bool canAssign)
 {
