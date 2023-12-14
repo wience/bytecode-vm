@@ -238,6 +238,8 @@ static ObjFunction *endCompiler()
         disassembleChunk(currentChunk(), "code");
     }
 #endif
+
+    return function;
 }
 
 static void beginScope()
