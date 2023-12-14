@@ -637,6 +637,13 @@ static void forStatement()
 
     statement();
     emitLoop(loopStart);
+
+    if (exitJump != -1)
+    {
+        patchJump(exitJump);
+        emitByte(OP_POP);
+    }
+
     endScope();
 }
 
