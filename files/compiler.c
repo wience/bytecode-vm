@@ -627,6 +627,7 @@ static void whileStatement()
     int exitJump = emitJump(OP_JUMP_IF_FALSE);
     emitByte(OP_POP);
     statement();
+    emitLoop(loopStart);
 
     patchJump(exitJump);
     emitByte(OP_POP);
