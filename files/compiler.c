@@ -605,6 +605,7 @@ static void expressionStatement()
 
 static void forStatement()
 {
+    beginScope();
     consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'.");
     if (match(TOKEN_SEMICOLON))
     {
@@ -626,6 +627,7 @@ static void forStatement()
 
     statement();
     emitLoop(loopStart);
+    endScope();
 }
 
 static void ifStatement()
