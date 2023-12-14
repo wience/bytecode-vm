@@ -606,7 +606,18 @@ static void expressionStatement()
 static void forStatement()
 {
     consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'.");
-    consume(TOKEN_SEMICOLON, "Expect ';'.");
+    if (match(TOKEN_SEMICOLON))
+    {
+        // no initializer
+    }
+    else if (match(TOKEN_VAR))
+    {
+        varDeclaration();
+    }
+    else
+    {
+        expressionStatement();
+    }
 
     int loopStart = currentChunk()->count;
 
