@@ -231,6 +231,7 @@ static void initCompiler(Compiler *compiler, FunctionType type)
 static ObjFunction *endCompiler()
 {
     emitReturn();
+    ObjFunction *function = current->function;
 #ifdef DEBUG_PRINT_CODE
     if (!parser.hadError)
     {
