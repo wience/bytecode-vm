@@ -584,7 +584,7 @@ static void defineVariable(uint8_t global)
     emitBytes(OP_DEFINE_GLOBAL, global);
 }
 
-static void uint8_t argumentList()
+static uint8_t argumentList()
 {
     uint8_t argCount = 0;
     if (!check(TOKEN_RIGHT_PAREN))
