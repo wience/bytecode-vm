@@ -533,6 +533,16 @@ static int resolveLocal(Compiler *compiler, Token *name)
 static int addUpvalue(Compiler *compiler, uint8_t index, bool isLocal)
 {
     int upvalueCount = compiler->function->upvalueCount;
+
+    for (int i = 0; i < upvalueCount; i++)
+    {
+        Upvalue *upvalue = &compiler->upvalues[i];
+        if (upvalue->index == index && upvalue->isLocal == isLocal)
+        {
+            return i;
+        }
+    }
+
     compiler->upvalues[upvalueCount].isLocal = isLocal;
     compiler->upvalues[upvalueCount].index = index;
     return compiler->function->upvalueCount++;
