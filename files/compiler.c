@@ -600,6 +600,21 @@ static void block()
     consume(TOKEN_RIGHT_BRACE, "Expect '}' after block.");
 }
 
+static void function(FunctionType type)
+{
+    Compiler compiler;
+    initCompiler(&compiler, type);
+    beginScope();
+
+    consume(TOKEN_LEFT_PAREN, "Expected '(' after function name.");
+    consume(TOKEN_RIGHT_PAREN, "Expected ')' after function parameters.");
+    consume(TOKEN_LEFT_BRACE, "Expected '{' before function body");
+    block();
+
+    ObjFunction *function = endCompiler();
+    emitBytes(OP_CONSTANT, makeConstant(OBJ_VAL(function)));
+}
+
 static void funDeclaration()
 {
     uint8_t global = parseVariable("Expect function name.");
