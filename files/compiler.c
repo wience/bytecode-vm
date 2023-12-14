@@ -620,6 +620,7 @@ static void printStatement()
 
 static void whileStatement()
 {
+    int loopStart = currentChunk()->count;
     consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
     expression();
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
