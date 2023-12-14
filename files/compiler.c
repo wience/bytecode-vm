@@ -381,6 +381,11 @@ static void namedVariable(Token name, bool canAssign)
         getOp = OP_GET_LOCAL;
         setOp = OP_SET_LOCAL;
     }
+    else if ((arg = resolveUpvalue(current, &name)) != -1)
+    {
+        getOp = OP_GET_UPVALUE;
+        setOp = OP_SET_UPVALUE;
+    }
     else
     {
         arg = identifierConstant(&name);
