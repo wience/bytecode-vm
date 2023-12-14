@@ -228,7 +228,7 @@ static void initCompiler(Compiler *compiler, FunctionType type)
     local->name.length = 0;
 }
 
-static void endCompiler()
+static ObjFunction *endCompiler()
 {
     emitReturn();
 #ifdef DEBUG_PRINT_CODE
