@@ -576,6 +576,7 @@ static void ifStatement()
     consume(TOKEN_RIGHT_PAREN, "Expected ')' after condition.");
 
     int thenJump = emitJump(OP_JUMP_IF_FALSE);
+    emitByte(OP_POP);
     statement();
 
     int elseJump = emitJump(OP_JUMP);
