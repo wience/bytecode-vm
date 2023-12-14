@@ -7,6 +7,7 @@
 
 #define OBJ_TYPE(value) (AS_OBJ(value)->type)
 
+#define IS_FUNCTION(value) isObjType(value, OBJ_FUNCTION);
 #define IS_STRING(value) isObjType(value, OBJ_STRING)
 
 #define AS_STRING(value) ((ObjString *)AS_OBJ(value))
