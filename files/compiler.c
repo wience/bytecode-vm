@@ -618,6 +618,20 @@ static void printStatement()
     emitByte(OP_PRINT);
 }
 
+static void whileStatement()
+{
+    consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
+    expression();
+    consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
+
+    int exitJump = emitJump(OP_JUMP_IF_FALSE);
+    emitByte(OP_POP);
+    statement();
+
+    patchJump(exitJump);
+    emitByte(OP_POP);
+}
+
 static void synchronize()
 {
     parser.panicMode = false;
