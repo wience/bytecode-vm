@@ -621,6 +621,16 @@ static void forStatement()
     }
 
     int loopStart = currentChunk()->count;
+    int exitJump = -1;
+    if (!match(TOKEN_SEMICOLON))
+    {
+        expression();
+        consume(TOKEN_SEMICOLON, "Expect ';' after loop condition.");
+
+        // Jump out loop if condition is false
+        exitJump = emitJump(OP_JUMP_IF_FALSE);
+        emitByte(OP_POP); // condition
+    }
 
     consume(TOKEN_SEMICOLON, "Expect ';'.");
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses.");
