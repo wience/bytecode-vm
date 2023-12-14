@@ -50,6 +50,12 @@ typedef struct
     int depth;
 } Local;
 
+typedef struct
+{
+    uint8_t index;
+    bool isLocal;
+} Upvalue;
+
 typedef enum
 {
     TYPE_FUNCTION,
