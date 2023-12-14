@@ -235,7 +235,7 @@ static ObjFunction *endCompiler()
 #ifdef DEBUG_PRINT_CODE
     if (!parser.hadError)
     {
-        disassembleChunk(currentChunk(), "code");
+        disassembleChunk(currentChunk(), function->name != NULL ? function->name->chars : "<script>");
     }
 #endif
 
