@@ -598,6 +598,14 @@ static void block()
     consume(TOKEN_RIGHT_BRACE, "Expect '}' after block.");
 }
 
+static void funDeclaration()
+{
+    uint8_t global = parseVariable("Expect function name.");
+    markInitialized();
+    function(TYPE_FUNCTION);
+    defineVariable(global);
+}
+
 static void varDeclaration()
 {
     uint8_t global = parseVariable("Expected variable name.");
@@ -749,7 +757,11 @@ static void synchronize()
 
 static void declaration()
 {
-    if (match(TOKEN_VAR))
+    if (match(TOKEN_FUN))
+    {
+        funDeclaration();
+    }
+    else if (match(TOKEN_VAR))
     {
         varDeclaration();
     }
