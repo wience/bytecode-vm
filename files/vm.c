@@ -414,6 +414,10 @@ static InterpretResult run()
 
             break;
         }
+        case OP_CLOSE_UPVALUE:
+            closeUpvalues(vm.stackTop - 1);
+            pop();
+            break;
         case OP_RETURN:
         {
             Value result = pop();
