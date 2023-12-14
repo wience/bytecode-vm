@@ -64,6 +64,7 @@ typedef struct Compiler
 
     Local locals[UINT8_COUNT];
     int localCount;
+    Upvalue upvalues[UINT8_COUNT];
     int scopeDepth;
 } Compiler;
 
