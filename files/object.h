@@ -18,6 +18,7 @@
 #define AS_CSTRING(value) (((ObjString *)AS_OBJ(value))->chars)
 typedef enum
 {
+    OBJ_CLOSURE,
     OBJ_FUNCTION,
     OBJ_NATIVE,
     OBJ_STRING,
