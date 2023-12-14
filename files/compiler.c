@@ -215,6 +215,7 @@ static void patchJump(int offset)
 
 static void initCompiler(Compiler *compiler, FunctionType type)
 {
+    compiler->enclosing = current;
     compiler->function = NULL;
     compiler->type = type;
     compiler->localCount = 0;
