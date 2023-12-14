@@ -641,7 +641,7 @@ static void forStatement()
     if (exitJump != -1)
     {
         patchJump(exitJump);
-        emitByte(OP_POP);
+        emitByte(OP_POP); // Condition
     }
 
     endScope();
