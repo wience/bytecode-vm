@@ -315,6 +315,12 @@ static void binary(bool canAssign)
     }
 }
 
+static void call(bool canAssign)
+{
+    uint8_t argCount = argumentList();
+    emitBytes(OP_CALL, argCount);
+}
+
 static void literal(bool canAssign)
 {
     switch (parser.previous.type)
@@ -576,6 +582,21 @@ static void defineVariable(uint8_t global)
         return;
     }
     emitBytes(OP_DEFINE_GLOBAL, global);
+}
+
+static void uint8_t argumentList()
+{
+    uint8_t argCount = 0;
+    if (!check(TOKEN_RIGHT_PAREN))
+    {
+        do
+        {
+            expression();
+            argCount++;
+        } while (match(TOKEN_COMMA));
+    }
+    consume(TOKEN_RIGHT_PAREN, "Expect ')' after arguments.");
+    return argCount;
 }
 
 static void and_(bool canAssign)
