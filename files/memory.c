@@ -92,6 +92,8 @@ static void markRoots()
     {
         markValue(*slot);
     }
+
+    markTable(&vm.globals);
 }
 
 void freeObjects()
