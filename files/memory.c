@@ -29,6 +29,12 @@ void *reallocate(void *pointer, size_t oldSize, size_t newSize)
     return result;
 }
 
+void markValue(Value value)
+{
+    if (IS_OBJ(value))
+        markObject(AS_OBJ(value));
+}
+
 static void freeObject(Obj *object)
 {
 #ifdef DEBUG_LOG_GC
