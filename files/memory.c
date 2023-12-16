@@ -182,6 +182,7 @@ static void sweep()
     {
         if (object->isMarked)
         {
+            object->isMarked = false;
             previous = object;
             object = object->next;
         }
