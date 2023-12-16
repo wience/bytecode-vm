@@ -225,7 +225,7 @@ void collectGarbage()
 
     markRoots();
     traceReferences();
-    tableRemoveWhite(Table * table);
+    tableRemoveWhite(&vm.strings);
     sweep();
 
 #ifdef DEBUG_LOG_GC
