@@ -79,4 +79,8 @@ void collectGarbage()
 #ifdef DEBUG_LOG_GC
     printf("-- garbage collection begin\n");
 #endif
+
+#ifdef DEBUG_LOG_GC
+    printf("-- garbage collection END\n");
+#endif
 }
