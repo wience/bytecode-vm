@@ -230,6 +230,7 @@ void collectGarbage()
 {
 #ifdef DEBUG_LOG_GC
     printf("-- garbage collection begin\n");
+    size_t before = vm.bytesAllocated;
 #endif
 
     markRoots();
@@ -241,5 +242,6 @@ void collectGarbage()
 
 #ifdef DEBUG_LOG_GC
     printf("-- garbage collection END\n");
+    printf("    collected %zu bytes (from %zu to %zu) next at %zu\n", before - vm.bytesAllocated, before, vm.bytesAllocated, vm.nextGC);
 #endif
 }
