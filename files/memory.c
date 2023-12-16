@@ -10,6 +10,8 @@
 #include "debug.h"
 #endif
 
+#define GC_HEAP_GROW_FACTOR 2
+
 void *reallocate(void *pointer, size_t oldSize, size_t newSize)
 {
 
@@ -234,6 +236,8 @@ void collectGarbage()
     traceReferences();
     tableRemoveWhite(&vm.strings);
     sweep();
+
+    vm.nextGC = vm.bytesAllocated * GC_HEAP_GROW_FACTOR;
 
 #ifdef DEBUG_LOG_GC
     printf("-- garbage collection END\n");
