@@ -5,5 +5,9 @@ fun fib(n) {
 
 var start = clock();
 print "Hello World";
-print fib(15);
+print fib(3);
 print clock() - start;
+
+
+var useless = "mel bayot";
+print("hello world");
