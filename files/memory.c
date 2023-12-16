@@ -104,6 +104,7 @@ static void markRoots()
     }
 
     markTable(&vm.globals);
+    markCompilerRoots();
 }
 
 void freeObjects()
