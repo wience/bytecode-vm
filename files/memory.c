@@ -70,6 +70,11 @@ static void markArray(ValueArray *array)
 
 static void blackenObject(Obj *object)
 {
+#ifdef DEBUG_LOG_GC
+    printf("%p blacken ", (void *)object);
+    printValue(OBJ_VAL(object));
+    printf("\n");
+#endif
     switch (object->type)
     {
     case OBJ_CLOSURE:
