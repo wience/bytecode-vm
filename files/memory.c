@@ -62,3 +62,7 @@ void freeObjects()
         object = next;
     }
 }
+
+void collectGarbage()
+{
+}
