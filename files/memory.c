@@ -60,6 +60,16 @@ void markValue(Value value)
         markObject(AS_OBJ(value));
 }
 
+static void blackenObject(Obj *object)
+{
+    switch (object->type)
+    {
+    case OBJ_NATIVE:
+    case OBJ_STRING:
+        break;
+    }
+}
+
 static void freeObject(Obj *object)
 {
 #ifdef DEBUG_LOG_GC
