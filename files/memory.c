@@ -119,6 +119,15 @@ static void markRoots()
     markCompilerRoots();
 }
 
+static void traceReferences()
+{
+    while (vm.grayCount > 0)
+    {
+        Obj *object = vm.grayStack[--vm.grayCount];
+        blackenObject(object);
+    }
+}
+
 void freeObjects()
 {
     Obj *object = vm.objects;
