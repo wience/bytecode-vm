@@ -74,6 +74,7 @@
     "system_error": "c",
     "tuple": "c",
     "__locale": "c",
-    "value.h": "c"
+    "value.h": "c",
+    "stdlib.h": "c"
   }
 }

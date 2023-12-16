@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <stdlib.h>
 
 #include "common.h"
 #include "compiler.h"
@@ -15,6 +16,38 @@ VM vm;
 static Value clockNative(int argCount, Value *args)
 {
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
+}
+
+static Value inputNative(int argCount, Value *args)
+{
+    char inputBuffer[1024];
+
+    if (argCount > 0 && IS_STRING(args[0]))
+    {
+        printf("%s", AS_CSTRING(args[0]));
+    }
+
+    if (fgets(inputBuffer, sizeof(inputBuffer), stdin) == NULL)
+    {
+        return NIL_VAL;
+    }
+
+    inputBuffer[strcspn(inputBuffer, "\n")] = 0;
+
+    char *end;
+    long intVal = strtol(inputBuffer, &end, 10);
+    if (*end == '\0')
+    {
+        return NUMBER_VAL((double)intVal);
+    }
+
+    double floatVal = strtod(inputBuffer, &end);
+    if (*end == '\0')
+    {
+        return NUMBER_VAL(floatVal);
+    }
+
+    return OBJ_VAL(copyString(inputBuffer, strlen(inputBuffer)));
 }
 
 static void resetStack()
@@ -75,6 +108,7 @@ void initVM()
     initTable(&vm.strings);
 
     defineNative("clock", clockNative);
+    defineNative("input", inputNative);
 }
 
 void freeVM()
