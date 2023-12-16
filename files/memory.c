@@ -64,6 +64,13 @@ static void blackenObject(Obj *object)
 {
     switch (object->type)
     {
+    case OBJ_FUNCTION:
+    {
+        ObjFunction *function = (ObjFunction *)object;
+        markObject((Obj *)function->name);
+        markArray(&function->chunk.constants);
+        break;
+    }
     case OBJ_UPVALUE:
         markValue(((ObjUpvalue *)object)->closed);
         break;
