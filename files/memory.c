@@ -93,6 +93,11 @@ static void markRoots()
         markValue(*slot);
     }
 
+    for (int i = 0; i < vm.frameCount; i++)
+    {
+        markObject((Obj *)vm.frames[i].closure);
+    }
+
     markTable(&vm.globals);
 }
 
