@@ -195,6 +195,7 @@ void collectGarbage()
 
     markRoots();
     traceReferences();
+    sweep();
 
 #ifdef DEBUG_LOG_GC
     printf("-- garbage collection END\n");
