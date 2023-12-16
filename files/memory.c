@@ -67,6 +67,14 @@ static void freeObject(Obj *object)
     }
 }
 
+static void markRoots()
+{
+    for (Value *slot = vm.stack; slot < vm.stackTop; slot++)
+    {
+        markValue(*slot);
+    }
+}
+
 void freeObjects()
 {
     Obj *object = vm.objects;
@@ -83,6 +91,8 @@ void collectGarbage()
 #ifdef DEBUG_LOG_GC
     printf("-- garbage collection begin\n");
 #endif
+
+    markRoots();
 
 #ifdef DEBUG_LOG_GC
     printf("-- garbage collection END\n");
