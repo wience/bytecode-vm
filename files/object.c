@@ -19,7 +19,7 @@ static Obj *allocateObject(size_t size, ObjType type)
     vm.objects = object;
 
 #ifdef DEBUG_LOG_GC
-    printf("%p allocated %zu for %d\n", (void *)object, suze, type);
+    printf("%p allocated %zu for %d\n", (void *)object, size, type);
 #endif
 
     return object;
