@@ -206,6 +206,8 @@ static void concatenate()
     chars[length] = '\0';
 
     ObjString *result = takeString(chars, length);
+    pop();
+    pop();
     push(OBJ_VAL(result));
 }
 
