@@ -64,6 +64,9 @@ static void blackenObject(Obj *object)
 {
     switch (object->type)
     {
+    case OBJ_UPVALUE:
+        markValue(((ObjUpvalue *)object)->closed);
+        break;
     case OBJ_NATIVE:
     case OBJ_STRING:
         break;
