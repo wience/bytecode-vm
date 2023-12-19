@@ -496,7 +496,9 @@ static InterpretResult run()
             // Exit interpreter.
         }
         }
-        // printBytecode(&frame->closure->function->chunk);
+#ifdef DEBUG_BYTECODE
+        printBytecode(&frame->closure->function->chunk);
+#endif
     }
 
 #undef READ_BYTE
