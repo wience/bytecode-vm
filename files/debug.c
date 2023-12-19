@@ -140,3 +140,17 @@ int disassembleInstruction(Chunk *chunk, int offset)
         return offset + 1;
     }
 }
+
+void printBytecode(Chunk *chunk)
+{
+    printf("Bytecode (Count: %d):\n", chunk->count);
+    for (int i = 0; i < chunk->count; i++)
+    {
+        printf("%02x ", chunk->code[i]); // Print each byte in hexadecimal
+        if ((i + 1) % 8 == 0 || i == chunk->count - 1)
+        {
+            printf("\t(line %d)\n", chunk->lines[i]); // Print the line number
+        }
+    }
+    printf("\n");
+}

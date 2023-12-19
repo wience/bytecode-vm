@@ -13,6 +13,8 @@
 
 VM vm;
 
+void printBytecode(Chunk *chunk);
+
 static Value clockNative(int argCount, Value *args)
 {
     return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
@@ -139,7 +141,7 @@ static bool call(ObjClosure *closure, int argCount)
 {
     if (argCount != closure->function->arity)
     {
-        runtimeError("Expected %d arguments but got %d.", closure->function->arity, argCount);
+        runtimeError("Expected %d arguments but got %d. | 2 Chronicles 15:7 But as for you, be strong and do not give up, for your work will be rewarded.”", closure->function->arity, argCount);
         return false;
     }
 
@@ -416,7 +418,6 @@ static InterpretResult run()
         case OP_PRINT:
         {
             printValue(pop());
-            printf("\n");
             break;
         }
         case OP_JUMP:
@@ -495,6 +496,7 @@ static InterpretResult run()
             // Exit interpreter.
         }
         }
+        // printBytecode(&frame->closure->function->chunk);
     }
 
 #undef READ_BYTE

@@ -1,7 +1,14 @@
-fun fib(n) {
-  if (n < 2) return n;
-  return fib(n - 2) + fib(n - 1);
-}
-
-var x = input("Enter a number: ");
-print fib(x);
+var height;
+	var height = input();
+	var space = height-1 ;
+	var count = 1;
+	for(var i = 0; i < height; i = i + 1){
+		for(var j = 0; j < space; j = j + 1){
+			print " ";
+		}
+		for(var k = 0; k <= i; k = k + 1){
+			print "* ";
+		}
+		space = space - 1;
+		print nil;
+	}

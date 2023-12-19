@@ -173,7 +173,7 @@ static void emitLoop(int loopStart)
 
     int offset = currentChunk()->count - loopStart + 2;
     if (offset > UINT16_MAX)
-        error("Loop body too large.");
+        error("Loop body too large.| Philippians 4:13\nI can do all this through him who gives me strength.");
 
     emitByte((offset >> 8) & 0xff);
     emitByte(offset & 0xff);
@@ -563,7 +563,7 @@ static int addUpvalue(Compiler *compiler, uint8_t index, bool isLocal)
 
     if (upvalueCount == UINT8_COUNT)
     {
-        error("Too many closure variables in function");
+        error("Too many closure variables in function | Philippians 4:13\nI can do all this through him who gives me strength.");
         return 0;
     }
 
@@ -671,7 +671,7 @@ static uint8_t argumentList()
             argCount++;
         } while (match(TOKEN_COMMA));
     }
-    consume(TOKEN_RIGHT_PAREN, "Expect ')' after arguments.");
+    consume(TOKEN_RIGHT_PAREN, "Expect ')' after arguments. | Matthew 11:28\n“Come to me, all you who are weary and burdened, and I will give you rest.");
     return argCount;
 }
 
@@ -702,7 +702,7 @@ static void block()
         declaration();
     }
 
-    consume(TOKEN_RIGHT_BRACE, "Expect '}' after block.");
+    consume(TOKEN_RIGHT_BRACE, "Expect '}' after block. | Mark 10:27\nJesus looked at them and said, “With man this is impossible, but not with God; all things are possible with God.”");
 }
 
 static void function(FunctionType type)
@@ -725,8 +725,8 @@ static void function(FunctionType type)
             defineVariable(constant);
         } while (match(TOKEN_COMMA));
     }
-    consume(TOKEN_RIGHT_PAREN, "Expected ')' after function parameters.");
-    consume(TOKEN_LEFT_BRACE, "Expected '{' before function body");
+    consume(TOKEN_RIGHT_PAREN, "Expected ')' after function parameters. | Matthew 19:26\nJesus looked at them and said, “With man this is impossible, but with God all things are possible.");
+    consume(TOKEN_LEFT_BRACE, "Expected '{' before function body | Matthew 19:26\nJesus looked at them and said, “With man this is impossible, but with God all things are possible.");
     block();
 
     ObjFunction *function = endCompiler();
@@ -741,7 +741,7 @@ static void function(FunctionType type)
 
 static void funDeclaration()
 {
-    uint8_t global = parseVariable("Expect function name.");
+    uint8_t global = parseVariable("Expect function name. | Luke 1:37 \nFor no word from God will ever fail.”");
     markInitialized();
     function(TYPE_FUNCTION);
     defineVariable(global);
@@ -749,7 +749,7 @@ static void funDeclaration()
 
 static void varDeclaration()
 {
-    uint8_t global = parseVariable("Expected variable name.");
+    uint8_t global = parseVariable("Expected variable name. | Luke 1:37 \nFor no word from God will ever fail.”");
 
     if (match(TOKEN_EQUAL))
     {
@@ -759,7 +759,7 @@ static void varDeclaration()
     {
         emitByte(OP_NIL);
     }
-    consume(TOKEN_SEMICOLON, "Expected ';' after variable declaration");
+    consume(TOKEN_SEMICOLON, "Expected ';' after variable declaration | John 8:12 \nWhen Jesus spoke again to the people, he said, “I am the light of the world. Whoever follows me will never walk in darkness, but will have the light of life.”");
 
     defineVariable(global);
 }
@@ -767,14 +767,14 @@ static void varDeclaration()
 static void expressionStatement()
 {
     expression();
-    consume(TOKEN_SEMICOLON, "Expected ';' after expression.");
+    consume(TOKEN_SEMICOLON, "Expected ';' after expression. | Jeremiah 29:11 \nFor I know the plans I have for you,” declares the LORD, “plans to prosper you and not to harm you, plans to give you hope and a future.");
     emitByte(OP_POP);
 }
 
 static void forStatement()
 {
     beginScope();
-    consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'.");
+    consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'. | Isaiah 41:10 \nSo do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.");
     if (match(TOKEN_SEMICOLON))
     {
         // no initializer
@@ -793,7 +793,7 @@ static void forStatement()
     if (!match(TOKEN_SEMICOLON))
     {
         expression();
-        consume(TOKEN_SEMICOLON, "Expect ';' after loop condition.");
+        consume(TOKEN_SEMICOLON, "Expect ';' after loop condition. | Galatians 6:9 Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.");
 
         // Jump out loop if condition is false
         exitJump = emitJump(OP_JUMP_IF_FALSE);
@@ -806,7 +806,7 @@ static void forStatement()
         int incrementStart = currentChunk()->count;
         expression();
         emitByte(OP_POP);
-        consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses.");
+        consume(TOKEN_RIGHT_PAREN, "Expect ')' after for clauses. | 1 Corinthians 9:24 Do you not know that in a race all the runners run, but only one gets the prize? Run in such a way as to get the prize.");
 
         emitLoop(loopStart);
         loopStart = incrementStart;
