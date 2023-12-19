@@ -1,3 +1,5 @@
+var start = clock();
+
 var height;
 	var height = input();
 	var space = height-1 ;
@@ -12,3 +14,6 @@ var height;
 		space = space - 1;
 		print nil;
 	}
+
+var end = clock();
+print(end - start);

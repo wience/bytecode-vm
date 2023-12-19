@@ -391,7 +391,7 @@ static InterpretResult run()
             }
             else
             {
-                runtimeError("Operands must be two numbers or two strings. || Bible verse");
+                runtimeError("Operands must be two numbers or two strings. | Psalms 37:24\nthough he may stumble, he will not fall, for the LORD upholds him with his hand.");
                 return INTERPRET_RUNTIME_ERROR;
             }
             break;
