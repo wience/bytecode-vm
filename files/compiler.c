@@ -11,16 +11,19 @@
 #include "debug.h"
 #endif
 
+// This is a struct that represents a parser.
 typedef struct
 {
-    Token current;
-    Token previous;
-    bool hadError;
-    bool panicMode;
+    Token current;  // Current token being processed.
+    Token previous; // Previous token processed.
+    bool hadError;  // Flag to indicate if an error has occurred.
+    bool panicMode; // Flag for panic mode to avoid cascading errors.
 } Parser;
 
+// This is an enumeration of the possible precedence levels.
 typedef enum
 {
+    // List of precedence levels from lowest to highest.
     PREC_NONE,
     PREC_ASSIGNMENT, // =
     PREC_OR,         // or
@@ -34,22 +37,26 @@ typedef enum
     PREC_PRIMARY
 } Precedence;
 
+// This is a function pointer type. It represents a function that parses a prefix expression.
 typedef void (*ParseFn)(bool canAssign);
 static uint8_t identifierConstant(Token *name);
 static void call(bool canAssign);
 static uint8_t argumentList();
+
+// ParseRule struct: Associates parsing functions with tokens.
 typedef struct
 {
-    ParseFn prefix;
-    ParseFn infix;
-    Precedence precedence;
+    ParseFn prefix;        // Function for prefix parsing.
+    ParseFn infix;         // Function for infix parsing.
+    Precedence precedence; // Precedence level for the rule.
 } ParseRule;
 
+// This is a struct that represents a local variable.
 typedef struct
 {
-    Token name;
-    int depth;
-    bool isCaptured;
+    Token name;      // Name of the local variable.
+    int depth;       // Scope depth of the variable.
+    bool isCaptured; // Flag to indicate if captured by a closure.
 } Local;
 
 typedef struct
@@ -64,6 +71,7 @@ typedef enum
     TYPE_SCRIPT
 } FunctionType;
 
+// This is a struct that represents a compiler.
 typedef struct Compiler
 {
     struct Compiler *enclosing;
@@ -80,6 +88,7 @@ Parser parser;
 
 Compiler *current = NULL;
 
+// Helper functions for parsing and compiling. These functions implement the logic for handling different aspects of the language.
 static Chunk *currentChunk()
 {
     return &current->function->chunk;
@@ -224,6 +233,9 @@ static void patchJump(int offset)
     currentChunk()->code[offset] = (jump >> 8) & 0xff;
     currentChunk()->code[offset + 1] = jump & 0xff;
 }
+
+// The main functions for parsing and compiling different language constructs like expressions, statements, and declarations.
+// These functions are critical for the operation of the compiler, enabling it to understand and translate the source code.
 
 static void initCompiler(Compiler *compiler, FunctionType type)
 {
@@ -448,6 +460,9 @@ static void unary(bool canAssign)
     }
 }
 
+// ParseRule array: Defines parsing rules for each token type.
+// Each token type is associated with prefix and infix parse functions and their precedence.
+
 ParseRule rules[] = {
     [TOKEN_LEFT_PAREN] = {grouping, call, PREC_CALL},
     [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},
@@ -491,26 +506,32 @@ ParseRule rules[] = {
     [TOKEN_EOF] = {NULL, NULL, PREC_NONE},
 };
 
+// Function parsePrecedence: Parses expressions based on precedence levels.
 static void parsePrecedence(Precedence precedence)
 {
-    advance();
+    advance(); // Advance to the next token.
+
+    // Retrieve the prefix parsing rule for the current token.
     ParseFn prefixRule = getRule(parser.previous.type)->prefix;
     if (prefixRule == NULL)
     {
-        error("Expected different expression | Jesus answered him, “I am saying, truly to you, you will be this day (of Christ’s return) with me in paradise.”");
+        // Error if no prefix rule is found for the token.
+        error("Expected different expression | Jesus answered him, ...");
         return;
     }
 
-    bool canAssign = precedence <= PREC_ASSIGNMENT;
-    prefixRule(canAssign);
+    bool canAssign = precedence <= PREC_ASSIGNMENT; // Check if assignment is allowed at the current precedence.
+    prefixRule(canAssign);                          // Parse the prefix part of the expression.
 
+    // Process the infix part of the expression based on precedence.
     while (precedence <= getRule(parser.current.type)->precedence)
     {
-        advance();
-        ParseFn infixRule = getRule(parser.previous.type)->infix;
-        infixRule(canAssign);
+        advance();                                                // Advance to the next token.
+        ParseFn infixRule = getRule(parser.previous.type)->infix; // Get the infix rule.
+        infixRule(canAssign);                                     // Parse the infix part.
     }
 
+    // If an assignment was expected but not found, throw an error.
     if (canAssign && match(TOKEN_EQUAL))
     {
         error("Invalid assignment target");
@@ -967,6 +988,8 @@ static void statement()
     }
 }
 
+// The 'compile' function is the entry point for compiling a source string into an executable chunk of code.
+
 ObjFunction *compile(const char *source)
 {
     initScanner(source);
@@ -988,6 +1011,8 @@ ObjFunction *compile(const char *source)
     ObjFunction *function = endCompiler();
     return parser.hadError ? NULL : function;
 }
+
+// Function to mark compiler roots for garbage collection, important for memory management.
 
 void markCompilerRoots()
 {
