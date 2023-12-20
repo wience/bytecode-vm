@@ -7,15 +7,18 @@
 #include "value.h"
 #include "vm.h"
 
+// Macro to allocate memory for an object of a given type.
 #define ALLOCATE_OBJ(type, objectType) \
     (type *)allocateObject(sizeof(type), objectType)
 
+// Allocates memory for an object and initializes it.
 static Obj *allocateObject(size_t size, ObjType type)
 {
     Obj *object = (Obj *)reallocate(NULL, 0, size);
     object->type = type;
     object->isMarked = false;
 
+    // Adds the object to the VM's object list for tracking.
     object->next = vm.objects;
     vm.objects = object;
 
@@ -26,16 +29,19 @@ static Obj *allocateObject(size_t size, ObjType type)
     return object;
 }
 
+// Creates a new closure object.
 ObjClosure *newClosure(ObjFunction *function)
 {
-
+    // Allocate memory for upvalue references.
     ObjUpvalue **upvalues = ALLOCATE(ObjUpvalue *, function->upvalueCount);
 
+    // Initialize upvalues to NULL.
     for (int i = 0; i < function->upvalueCount; i++)
     {
         upvalues[i] = NULL;
     }
 
+    // Allocate and initialize a new closure object.
     ObjClosure *closure = ALLOCATE_OBJ(ObjClosure, OBJ_CLOSURE);
     closure->function = function;
     closure->upvalues = upvalues;
@@ -43,6 +49,7 @@ ObjClosure *newClosure(ObjFunction *function)
     return closure;
 }
 
+// Creates a new function object.
 ObjFunction *newFunction()
 {
     ObjFunction *function = ALLOCATE_OBJ(ObjFunction, OBJ_FUNCTION);
@@ -53,6 +60,7 @@ ObjFunction *newFunction()
     return function;
 }
 
+// Creates a new native (C function) object.
 ObjNative *newNative(NativeFn function)
 {
     ObjNative *native = ALLOCATE_OBJ(ObjNative, OBJ_NATIVE);
@@ -60,6 +68,7 @@ ObjNative *newNative(NativeFn function)
     return native;
 }
 
+// Allocates and initializes a new string object.
 static ObjString *allocateString(char *chars, int length, uint32_t hash)
 {
     ObjString *string = ALLOCATE_OBJ(ObjString, OBJ_STRING);
@@ -67,12 +76,14 @@ static ObjString *allocateString(char *chars, int length, uint32_t hash)
     string->chars = chars;
     string->hash = hash;
 
+    // Adds string to the VM's string table for interning.
     push(OBJ_VAL(string));
     tableSet(&vm.strings, string, NIL_VAL);
     pop();
     return string;
 }
 
+// Hashes a string using the FNV-1a algorithm.
 static uint32_t hashString(const char *key, int length)
 {
     uint32_t hash = 2166136261u;
@@ -83,11 +94,14 @@ static uint32_t hashString(const char *key, int length)
     }
     return hash;
 }
+
+// Creates a new string object, reusing an existing one if found.
 ObjString *takeString(char *chars, int length)
 {
     uint32_t hash = hashString(chars, length);
     ObjString *interned = tableFindString(&vm.strings, chars, length, hash);
 
+    // If the string is already interned, free the new one and return the existing string.
     if (interned != NULL)
     {
         FREE_ARRAY(char, chars, length + 1);
@@ -97,6 +111,7 @@ ObjString *takeString(char *chars, int length)
     return allocateString(chars, length, hash);
 }
 
+// Creates a copy of a string and interns it.
 ObjString *copyString(const char *chars, int length)
 {
     uint32_t hash = hashString(chars, length);
@@ -111,6 +126,7 @@ ObjString *copyString(const char *chars, int length)
     return allocateString(heapChars, length, hash);
 }
 
+// Creates a new upvalue object.
 ObjUpvalue *newUpvalue(Value *slot)
 {
     ObjUpvalue *upvalue = ALLOCATE_OBJ(ObjUpvalue, OBJ_UPVALUE);
@@ -120,6 +136,7 @@ ObjUpvalue *newUpvalue(Value *slot)
     return upvalue;
 }
 
+// Utility function for printing a function's name.
 static void printFunction(ObjFunction *function)
 {
     if (function->name == NULL)
@@ -131,6 +148,7 @@ static void printFunction(ObjFunction *function)
     printf("<fn %s>", function->name->chars);
 }
 
+// Prints a human-readable representation of an object.
 void printObject(Value value)
 {
     switch (OBJ_TYPE(value))
