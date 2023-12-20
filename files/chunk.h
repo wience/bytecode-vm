@@ -4,6 +4,7 @@
 #include "common.h"
 #include "value.h"
 
+// This is an enumeration of the possible opcodes.
 typedef enum
 {
     OP_CONSTANT,
@@ -37,6 +38,7 @@ typedef enum
     OP_RETURN,
 } OpCode;
 
+// This is a struct that represents a chunk of memory.
 typedef struct
 {
     int count;

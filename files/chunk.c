@@ -15,7 +15,7 @@ void initChunk(Chunk *chunk)
 }
 
 // Function to write a byte to a chunk of memory. If the chunk's capacity is insufficient, it increases the capacity.
-void writeChunk(Chunk *chunk, uint8_t byte, int line) void writeChunk(Chunk *chunk, uint8_t byte, int line)
+void writeChunk(Chunk *chunk, uint8_t byte, int line)
 {
     if (chunk->capacity < chunk->count + 1)
     {
