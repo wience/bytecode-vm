@@ -1,5 +1,4 @@
 #include <stdlib.h>
-
 #include "compiler.h"
 #include "memory.h"
 #include "object.h"
@@ -12,19 +11,18 @@
 
 #define GC_HEAP_GROW_FACTOR 2
 
+// Adjusts the amount of memory allocated and potentially triggers garbage collection.
 void *reallocate(void *pointer, size_t oldSize, size_t newSize)
 {
-
     vm.bytesAllocated += newSize - oldSize;
     if (newSize > oldSize)
     {
 #ifdef DEBUG_STRESS_GC
-        collectGarbage();
+        collectGarbage(); // Forces garbage collection for stress testing.
 #endif
-
         if (vm.bytesAllocated > vm.nextGC)
         {
-            collectGarbage();
+            collectGarbage(); // Triggers garbage collection when threshold is exceeded.
         }
     }
     if (newSize == 0)
@@ -35,42 +33,43 @@ void *reallocate(void *pointer, size_t oldSize, size_t newSize)
 
     void *result = realloc(pointer, newSize);
     if (result == NULL)
-        exit(1);
+        exit(1); // Exits if memory allocation fails.
     return result;
 }
 
+// Marks an object as 'reachable' to prevent it from being collected.
 void markObject(Obj *object)
 {
-    if (object == NULL)
-        return;
-    if (object->isMarked)
-        return;
+    if (object == NULL || object->isMarked)
+        return; // Avoids marking null or already marked objects.
 
 #ifdef DEBUG_LOG_GC
     printf("%p mark ", (void *)object);
     printValue(OBJ_VAL(object));
     printf("\n");
 #endif
+
     object->isMarked = true;
 
+    // Ensure there's space on the gray stack, then push the object onto it.
     if (vm.grayCapacity < vm.grayCount + 1)
     {
         vm.grayCapacity = GROW_CAPACITY(vm.grayCapacity);
         vm.grayStack = (Obj **)realloc(vm.grayStack, sizeof(Obj *) * vm.grayCapacity);
-
         if (vm.grayStack == NULL)
-            exit(1);
+            exit(1); // Exits if memory allocation fails.
     }
-
     vm.grayStack[vm.grayCount++] = object;
 }
 
+// Marks a value as 'reachable'.
 void markValue(Value value)
 {
     if (IS_OBJ(value))
         markObject(AS_OBJ(value));
 }
 
+// Marks all values in a ValueArray as 'reachable'.
 static void markArray(ValueArray *array)
 {
     for (int i = 0; i < array->count; i++)
@@ -79,6 +78,7 @@ static void markArray(ValueArray *array)
     }
 }
 
+// Processes an object and marks its children as 'reachable'.
 static void blackenObject(Obj *object)
 {
 #ifdef DEBUG_LOG_GC
@@ -115,10 +115,11 @@ static void blackenObject(Obj *object)
     }
 }
 
+// Frees an allocated object.
 static void freeObject(Obj *object)
 {
 #ifdef DEBUG_LOG_GC
-    printf("%p free of type %d\n", (void *)object, object->type);
+    printf("%p free type %d\n", (void *)object, object->type);
 #endif
 
     switch (object->type)
@@ -153,6 +154,7 @@ static void freeObject(Obj *object)
     }
 }
 
+// Marks the roots of all objects (those directly accessible).
 static void markRoots()
 {
     for (Value *slot = vm.stack; slot < vm.stackTop; slot++)
@@ -173,7 +175,7 @@ static void markRoots()
     markTable(&vm.globals);
     markCompilerRoots();
 }
-
+// Traces all 'reachable' objects starting from the roots.
 static void traceReferences()
 {
     while (vm.grayCount > 0)
@@ -183,6 +185,7 @@ static void traceReferences()
     }
 }
 
+// Sweeps (frees) all objects that were not marked as 'reachable'.
 static void sweep()
 {
     Obj *previous = NULL;
@@ -191,12 +194,14 @@ static void sweep()
     {
         if (object->isMarked)
         {
+            // Unmark the object for the next GC cycle.
             object->isMarked = false;
             previous = object;
             object = object->next;
         }
         else
         {
+            // Free the object and remove it from the list.
             Obj *unreached = object;
             object = object->next;
             if (previous != NULL)
@@ -207,12 +212,12 @@ static void sweep()
             {
                 vm.objects = object;
             }
-
             freeObject(unreached);
         }
     }
 }
 
+// Frees all objects in the VM when shutting down.
 void freeObjects()
 {
     Obj *object = vm.objects;
@@ -222,10 +227,10 @@ void freeObjects()
         freeObject(object);
         object = next;
     }
-
     free(vm.grayStack);
 }
 
+// Main function for garbage collection.
 void collectGarbage()
 {
 #ifdef DEBUG_LOG_GC
@@ -233,15 +238,15 @@ void collectGarbage()
     size_t before = vm.bytesAllocated;
 #endif
 
-    markRoots();
-    traceReferences();
-    tableRemoveWhite(&vm.strings);
-    sweep();
+    markRoots();                   // Marks all the root objects.
+    traceReferences();             // Traces and marks all reachable objects.
+    tableRemoveWhite(&vm.strings); // Removes unreachable strings.
+    sweep();                       // Frees all unreachable objects.
 
-    vm.nextGC = vm.bytesAllocated * GC_HEAP_GROW_FACTOR;
+    vm.nextGC = vm.bytesAllocated * GC_HEAP_GROW_FACTOR; // Sets the next GC threshold.
 
 #ifdef DEBUG_LOG_GC
-    printf("-- garbage collection END\n");
-    printf("    collected %zu bytes (from %zu to %zu) next at %zu\n", before - vm.bytesAllocated, before, vm.bytesAllocated, vm.nextGC);
+    printf("-- garbage collection end\n");
+    printf("   collected %zu bytes (from %zu to %zu) next at %zu\n", before - vm.bytesAllocated, before, vm.bytesAllocated, vm.nextGC);
 #endif
 }
