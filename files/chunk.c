@@ -4,6 +4,7 @@
 #include "memory.h"
 #include "vm.h"
 
+// Function to initialize a chunk of memory.
 void initChunk(Chunk *chunk)
 {
     chunk->count = 0;
@@ -13,7 +14,8 @@ void initChunk(Chunk *chunk)
     initValueArray(&chunk->constants);
 }
 
-void writeChunk(Chunk *chunk, uint8_t byte, int line)
+// Function to write a byte to a chunk of memory. If the chunk's capacity is insufficient, it increases the capacity.
+void writeChunk(Chunk *chunk, uint8_t byte, int line) void writeChunk(Chunk *chunk, uint8_t byte, int line)
 {
     if (chunk->capacity < chunk->count + 1)
     {
@@ -28,6 +30,7 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
     chunk->count++;
 }
 
+// Function to add a constant to a chunk. It pushes the value to the stack, writes it to the chunk's constants, then pops it from the stack.
 int addConstant(Chunk *chunk, Value value)
 {
     push(value);
@@ -36,6 +39,7 @@ int addConstant(Chunk *chunk, Value value)
     return chunk->constants.count - 1;
 }
 
+// Function to free the memory allocated to a chunk.
 void freeChunk(Chunk *chunk)
 {
     FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
