@@ -15,12 +15,14 @@ void initTable(Table *table)
     table->entries = NULL;
 }
 
+// Frees the memory associated with a hash table.
 void freeTable(Table *table)
 {
     FREE_ARRAY(Entry, table->entries, table->capacity);
     initTable(table);
 }
 
+// Finds an entry in the hash table, possibly returning a tombstone if it's part of a previous deletion.
 static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
 {
     uint32_t index = key->hash % capacity;
@@ -49,10 +51,12 @@ static Entry *findEntry(Entry *entries, int capacity, ObjString *key)
             return entry;
         }
 
+        // Linear probing in case of collision.
         index = (index + 1) % capacity;
     }
 }
 
+// Retrieves a value from the hash table.
 bool tableGet(Table *table, ObjString *key, Value *value)
 {
     if (table->count == 0)
@@ -67,6 +71,7 @@ bool tableGet(Table *table, ObjString *key, Value *value)
     return true;
 }
 
+// Adjusts the capacity of the hash table, rehashing all entries.
 static void adjustCapacity(Table *table, int capacity)
 {
     Entry *entries = ALLOCATE(Entry, capacity);
@@ -94,8 +99,10 @@ static void adjustCapacity(Table *table, int capacity)
     table->capacity = capacity;
 }
 
+// Inserts or updates a value in the hash table.
 bool tableSet(Table *table, ObjString *key, Value value)
 {
+    // Expand the hash table if the load factor is too high.
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
         int capacity = GROW_CAPACITY(table->capacity);
@@ -111,6 +118,7 @@ bool tableSet(Table *table, ObjString *key, Value value)
     return isNewKey;
 }
 
+// Deletes an entry from the hash table.
 bool tableDelete(Table *table, ObjString *key)
 {
     if (table->count == 0)
@@ -128,6 +136,7 @@ bool tableDelete(Table *table, ObjString *key)
     return true;
 }
 
+// Adds all entries from one table to another.
 void tableAddAll(Table *from, Table *to)
 {
     for (int i = 0; i < from->capacity; i++)
@@ -140,6 +149,7 @@ void tableAddAll(Table *from, Table *to)
     }
 }
 
+// Finds a string in the hash table.
 ObjString *tableFindString(Table *table, const char *chars, int length, uint32_t hash)
 {
     if (table->count == 0)
@@ -165,6 +175,7 @@ ObjString *tableFindString(Table *table, const char *chars, int length, uint32_t
     }
 }
 
+// Removes entries from the table that are no longer accessible.
 void tableRemoveWhite(Table *table)
 {
     for (int i = 0; i < table->capacity; i++)
@@ -177,6 +188,7 @@ void tableRemoveWhite(Table *table)
     }
 }
 
+// Marks all accessible objects in the table.
 void markTable(Table *table)
 {
     for (int i = 0; i < table->capacity; i++)
