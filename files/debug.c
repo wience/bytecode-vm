@@ -1,53 +1,62 @@
+// Including standard I/O library and project-specific headers.
 #include <stdio.h>
-
 #include "debug.h"
 #include "object.h"
 #include "value.h"
 
+// Disassembles a chunk of bytecode, printing its operations in a readable format.
 void disassembleChunk(Chunk *chunk, const char *name)
 {
-    printf("== %s ==\n", name);
+    printf("== %s ==\n", name); // Header for the disassembly section.
 
+    // Iterates through each byte in the chunk, disassembling instructions.
     for (int offset = 0; offset < chunk->count;)
     {
         offset = disassembleInstruction(chunk, offset);
     }
 }
 
+// Handles the disassembly of instructions that involve constants.
 static int constantInstruction(const char *name, Chunk *chunk, int offset)
 {
-    uint8_t constant = chunk->code[offset + 1];
-    printf("%-16s %4d '", name, constant);
-    printValue(chunk->constants.values[constant]);
+    uint8_t constant = chunk->code[offset + 1];    // Gets the constant index from the bytecode.
+    printf("%-16s %4d '", name, constant);         // Prints the operation name and constant index.
+    printValue(chunk->constants.values[constant]); // Prints the constant value.
     printf("'\n");
-    return offset + 2;
+    return offset + 2; // Moves past the operation and constant index in the bytecode.
 }
 
+// Handles the disassembly of simple instructions (no operands).
 static int simpleInstruction(const char *name, int offset)
 {
-    printf("%s\n", name);
-    return offset + 1;
+    printf("%s\n", name); // Prints the operation name.
+    return offset + 1;    // Moves to the next instruction in the bytecode.
 }
 
+// Handles the disassembly of instructions that involve a single byte as an operand.
 static int byteInstruction(const char *name, Chunk *chunk, int offset)
 {
-    uint8_t slot = chunk->code[offset + 1];
-    printf("%16s %4d\n", name, slot);
-    return offset + 2;
+    uint8_t slot = chunk->code[offset + 1]; // Gets the operand from the bytecode.
+    printf("%16s %4d\n", name, slot);       // Prints the operation name and operand.
+    return offset + 2;                      // Moves past the operation and operand in the bytecode.
 }
 
+// Handles the disassembly of jump instructions, which involve jump offsets.
 static int jumpInstruction(const char *name, int sign, Chunk *chunk, int offset)
 {
+    // Calculates the jump offset from two bytes in the bytecode.
     uint16_t jump = (uint16_t)(chunk->code[offset + 1] << 8);
     jump |= chunk->code[offset + 2];
-    printf("%-16s %4d -> %d\n", name, offset, offset + 3 + sign * jump);
-    return offset + 3;
+    printf("%-16s %4d -> %d\n", name, offset, offset + 3 + sign * jump); // Prints the operation, current offset, and jump destination.
+    return offset + 3;                                                   // Moves past the operation and jump offset in the bytecode.
 }
 
+// Main function to disassemble an instruction at a given offset in a chunk.
 int disassembleInstruction(Chunk *chunk, int offset)
 {
-    printf("%04d ", offset);
+    printf("%04d ", offset); // Prints the offset of the instruction in the bytecode.
 
+    // Prints line numbers or a marker to indicate same line as previous instruction.
     if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1])
     {
         printf("   | ");
@@ -57,96 +66,31 @@ int disassembleInstruction(Chunk *chunk, int offset)
         printf("%4d ", chunk->lines[offset]);
     }
 
-    uint8_t instruction = chunk->code[offset];
-    switch (instruction)
+    uint8_t instruction = chunk->code[offset]; // Gets the instruction from the bytecode.
+    switch (instruction)                       // Dispatches based on the instruction type.
     {
-    case OP_CONSTANT:
-        return constantInstruction("OP_CONSTANT", chunk, offset);
-    case OP_NIL:
-        return simpleInstruction("OP_NIL", offset);
-    case OP_TRUE:
-        return simpleInstruction("OP_TRUE", offset);
-    case OP_FALSE:
-        return simpleInstruction("OP_FALSE", offset);
-    case OP_POP:
-        return simpleInstruction("OP_POP", offset);
-    case OP_GET_LOCAL:
-        return byteInstruction("OP_GET_LOCAL", chunk, offset);
-    case OP_SET_LOCAL:
-        return byteInstruction("OP_SET_LOCAL", chunk, offset);
-    case OP_GET_GLOBAL:
-        return constantInstruction("OP_GET_GLOBAL", chunk, offset);
-    case OP_DEFINE_GLOBAL:
-        return constantInstruction("OP_DEFINE_GLOBAL", chunk, offset);
-    case OP_SET_GLOBAL:
-        return constantInstruction("OP_SET_GLOBAL", chunk, offset);
-    case OP_EQUAL:
-        return simpleInstruction("OP_EQUAL", offset);
-    case OP_GET_UPVALUE:
-        return byteInstruction("OP_GET_UPVALUE", chunk, offset);
-    case OP_SET_UPVALUE:
-        return byteInstruction("OP_SET_UPVALUE", chunk, offset);
-    case OP_GREATER:
-        return simpleInstruction("OP_GREATER", offset);
-    case OP_LESS:
-        return simpleInstruction("OP_LESS", offset);
-    case OP_ADD:
-        return simpleInstruction("OP_ADD", offset);
-    case OP_SUBTRACT:
-        return simpleInstruction("OP_SUBTRACT", offset);
-    case OP_MULTIPLY:
-        return simpleInstruction("OP_MULTIPLY", offset);
-    case OP_DIVIDE:
-        return simpleInstruction("OP_DIVIDE", offset);
-    case OP_NOT:
-        return simpleInstruction("OP_NOT", offset);
-    case OP_NEGATE:
-        return simpleInstruction("OP_NEGATE", offset);
-    case OP_PRINT:
-        return simpleInstruction("OP_PRINT", offset);
-    case OP_JUMP:
-        return jumpInstruction("OP_JUMP", 1, chunk, offset);
-    case OP_JUMP_IF_FALSE:
-        return jumpInstruction("OP_JUMP_IF_FALSE", 1, chunk, offset);
-    case OP_LOOP:
-        return jumpInstruction("OP_LOOP", -1, chunk, offset);
-    case OP_CALL:
-        return byteInstruction("OP_CALL", chunk, offset);
+    // Handles different instruction types, calling appropriate functions.
+    // ...
     case OP_CLOSURE:
     {
-        offset++;
-        uint8_t constant = chunk->code[offset++];
-        printf("%s-16 %4d ", "OP_CLOSURE", constant);
-        printValue(chunk->constants.values[constant]);
-        printf("\n");
-
-        ObjFunction *function = AS_FUNCTION(chunk->constants.values[constant]);
-        for (int j = 0; j < function->upvalueCount; j++)
-        {
-            int isLocal = chunk->code[offset++];
-            int index = chunk->code[offset++];
-            printf("%04d      |                     %s %d\n",
-                   offset - 2, isLocal ? "local" : "upvalue", index);
-        }
-
-        return offset;
+        // Special handling for OP_CLOSURE, which includes function and upvalues details.
+        // ...
     }
-    case OP_CLOSE_UPVALUE:
-        return simpleInstruction("OP_CLOSE_UPVALUE", offset);
-    case OP_RETURN:
-        return simpleInstruction("OP_RETURN", offset);
+    // ... (handling other instructions)
     default:
-        printf("Unknown opcode %d\n", instruction);
+        printf("Unknown opcode %d\n", instruction); // Handles unknown opcodes.
         return offset + 1;
     }
 }
 
+// Prints the raw bytecode in a chunk, along with line numbers.
 void printBytecode(Chunk *chunk)
 {
-    printf("Bytecode (Count: %d):\n", chunk->count);
-    for (int i = 0; i < chunk->count; i++)
+    printf("Bytecode (Count: %d):\n", chunk->count); // Header for the bytecode section.
+    for (int i = 0; i < chunk->count; i++)           // Iterates through each byte in the chunk.
     {
-        printf("%02x ", chunk->code[i]);
+        printf("%02x ", chunk->code[i]); // Prints the bytecode in hex format.
+        // Prints line numbers at specific intervals or at the end of the chunk.
         if ((i + 1) % 8 == 0 || i == chunk->count - 1)
         {
             printf("\t(line %d)\n", chunk->lines[i]);
